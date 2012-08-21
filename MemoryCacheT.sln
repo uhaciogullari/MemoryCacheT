@@ -1,0 +1,26 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 11.00
+# Visual Studio 2010
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MemoryCacheT", "MemoryCacheT\MemoryCacheT.csproj", "{035039D1-4BEF-4B68-A944-48F2CF4F2FC8}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MemoryCacheT.Test", "MemoryCacheT.Test\MemoryCacheT.Test.csproj", "{CADE34C5-5445-4745-849C-0223EB6B771D}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{035039D1-4BEF-4B68-A944-48F2CF4F2FC8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{035039D1-4BEF-4B68-A944-48F2CF4F2FC8}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{035039D1-4BEF-4B68-A944-48F2CF4F2FC8}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{035039D1-4BEF-4B68-A944-48F2CF4F2FC8}.Release|Any CPU.Build.0 = Release|Any CPU
+		{CADE34C5-5445-4745-849C-0223EB6B771D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{CADE34C5-5445-4745-849C-0223EB6B771D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{CADE34C5-5445-4745-849C-0223EB6B771D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{CADE34C5-5445-4745-849C-0223EB6B771D}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal
