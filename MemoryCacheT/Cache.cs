@@ -60,5 +60,24 @@ namespace MemoryCacheT
             }
         }
 
+        public int Count
+        {
+            get { return _cachedItems.Count; }
+        }
+
+        public bool IsEmpty
+        {
+            get { return _cachedItems.IsEmpty; }
+        }
+
+        public IEnumerable<TKey> Keys
+        {
+            get { return _cachedItems.Keys; }
+        }
+
+        public IEnumerable<TValue> Values
+        {
+            get { return _cachedItems.Values.Select(item => item.Value); }
+        }
     }
 }
