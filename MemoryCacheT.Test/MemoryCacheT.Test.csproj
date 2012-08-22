@@ -54,6 +54,7 @@
     <Compile Include="NonExpiringCacheItemTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="CacheTestBase.cs" />
+    <Compile Include="SlidingExpirationCacheItemTests.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

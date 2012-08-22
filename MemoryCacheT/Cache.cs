@@ -48,7 +48,6 @@ namespace MemoryCacheT
 
         private void CheckExpiredItems(object sender, ElapsedEventArgs e)
         {
-            DateTime now = _dateTimeProvider.Now;
             IEnumerable<TKey> expiredItemKeys = _cachedItems.Where(item => item.Value.IsExpired()).Select(item => item.Key);
 
             foreach (TKey expiredItemKey in expiredItemKeys)

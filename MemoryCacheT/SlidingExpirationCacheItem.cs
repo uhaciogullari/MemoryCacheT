@@ -7,19 +7,28 @@ namespace MemoryCacheT
         private readonly TimeSpan _cacheInterval;
         private DateTime? _lastAccessDateTime;
 
-        public SlidingExpirationCacheItem(TValue value, TimeSpan cacheInterval) : base(new DateTimeProvider(), value)
+        internal SlidingExpirationCacheItem(IDateTimeProvider dateTimeProvider, TValue value, TimeSpan cacheInterval)
+            : base(dateTimeProvider, value)
         {
             _cacheInterval = cacheInterval;
+            _lastAccessDateTime = dateTimeProvider.Now;
         }
 
-        public override TValue GetValue()
+        public SlidingExpirationCacheItem(TValue value, TimeSpan cacheInterval)
+            : this(new DateTimeProvider(), value, cacheInterval) { }
+
+        public override TValue Value
         {
-            throw new NotImplementedException();
+            get
+            {
+                _lastAccessDateTime = DateTimeProvider.Now;
+                return CacheItemValue;
+            }
         }
 
         public override bool IsExpired()
         {
-            throw new NotImplementedException();
+            return DateTimeProvider.Now >= (_lastAccessDateTime + _cacheInterval);
         }
     }
 }

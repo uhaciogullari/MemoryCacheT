@@ -6,9 +6,9 @@
 
         public NonExpiringCacheItem(TValue value) : this(new DateTimeProvider(), value) { }
 
-        public override TValue GetValue()
+        public override TValue Value
         {
-            return Value;
+            get { return CacheItemValue; }
         }
 
         public override bool IsExpired()

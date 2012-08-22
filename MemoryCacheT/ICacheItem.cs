@@ -4,7 +4,7 @@ namespace MemoryCacheT
 {
     public interface ICacheItem<TValue>
     {
-        TValue GetValue();
+        TValue Value { get; }
 
         bool IsExpired();
 

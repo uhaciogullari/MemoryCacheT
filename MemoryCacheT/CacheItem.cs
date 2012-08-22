@@ -5,26 +5,26 @@ namespace MemoryCacheT
     public abstract class CacheItem<TValue> : ICacheItem<TValue>
     {
         internal IDateTimeProvider DateTimeProvider { get; private set; }
-        protected TValue Value;
+        protected TValue CacheItemValue;
 
         internal CacheItem(IDateTimeProvider dateTimeProvider, TValue value)
         {
             DateTimeProvider = dateTimeProvider;
-            Value = value;
+            CacheItemValue = value;
         }
 
-        public abstract TValue GetValue();
+        public abstract TValue Value { get; }
 
         public abstract bool IsExpired();
 
         public void Expire()
         {
-            OnExpire(Value, DateTimeProvider.Now);
+            OnExpire(CacheItemValue, DateTimeProvider.Now);
         }
 
         public void Remove()
         {
-            OnRemove(Value, DateTimeProvider.Now);
+            OnRemove(CacheItemValue, DateTimeProvider.Now);
         }
 
         public Action<TValue, DateTime> OnExpire { get; set; }
