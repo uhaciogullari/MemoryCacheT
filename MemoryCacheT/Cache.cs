@@ -79,5 +79,35 @@ namespace MemoryCacheT
         {
             get { return _cachedItems.Values.Select(item => item.Value); }
         }
+
+        public void Clear()
+        {
+            _cachedItems.Clear();
+        }
+
+        public bool TryAdd(TKey key, ICacheItem<TValue> cacheItem)
+        {
+            if(cacheItem ==null)
+            {
+                throw new ArgumentNullException("cacheItem");
+            }
+
+            return _cachedItems.TryAdd(key, cacheItem);
+        }
+
+        public bool TryGetValue(TKey key, out TValue value)
+        {
+            value = default(TValue);
+            ICacheItem<TValue> cacheItemValue;
+
+            bool result = _cachedItems.TryGetValue(key, out cacheItemValue);
+
+            if(result)
+            {
+                value = cacheItemValue.Value;
+            }
+
+            return result;
+        }
     }
 }

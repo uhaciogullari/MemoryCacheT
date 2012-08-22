@@ -48,6 +48,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AbsoluteExpirationCacheItemTests.cs" />
+    <Compile Include="CacheCollectionOperationTests.cs" />
     <Compile Include="CacheConstructorTests.cs" />
     <Compile Include="CacheItemTestBase.cs" />
     <Compile Include="CacheItemTests.cs" />
