@@ -1,17 +1,17 @@
-﻿using System;
-
-namespace MemoryCacheT
+﻿namespace MemoryCacheT
 {
     public class NonExpiringCacheItem<TValue> : CacheItem<TValue>
     {
-        public NonExpiringCacheItem(TValue value) : base(value) { }
+        internal NonExpiringCacheItem(IDateTimeProvider dateTimeProvider, TValue value) : base(dateTimeProvider, value) { }
 
-        public override TValue GetValue(DateTime now)
+        public NonExpiringCacheItem(TValue value) : this(new DateTimeProvider(), value) { }
+
+        public override TValue GetValue()
         {
             return Value;
         }
 
-        public override bool IsExpired(DateTime now)
+        public override bool IsExpired()
         {
             return false;
         }

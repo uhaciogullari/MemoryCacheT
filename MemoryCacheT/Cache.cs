@@ -12,7 +12,7 @@ namespace MemoryCacheT
 
         private readonly ITimer _timer;
         private readonly IDateTimeProvider _dateTimeProvider;
-        private ConcurrentDictionary<TKey, ICacheItem<TValue>> _cachedItems;
+        private readonly ConcurrentDictionary<TKey, ICacheItem<TValue>> _cachedItems;
 
         internal Cache(ITimer timer, IDateTimeProvider dateTimeProvider, TimeSpan timerInterval, IEqualityComparer<TKey> keyEqualityComparer = null)
         {
@@ -49,14 +49,14 @@ namespace MemoryCacheT
         private void CheckExpiredItems(object sender, ElapsedEventArgs e)
         {
             DateTime now = _dateTimeProvider.Now;
-            IEnumerable<TKey> expiredItemKeys = _cachedItems.Where(item => item.Value.IsExpired(now)).Select(item => item.Key);
+            IEnumerable<TKey> expiredItemKeys = _cachedItems.Where(item => item.Value.IsExpired()).Select(item => item.Key);
 
             foreach (TKey expiredItemKey in expiredItemKeys)
             {
                 ICacheItem<TValue> expiredItem;
                 if (_cachedItems.TryRemove(expiredItemKey, out expiredItem))
                 {
-                    expiredItem.Expire(now);
+                    expiredItem.Expire();
                 }
             }
         }

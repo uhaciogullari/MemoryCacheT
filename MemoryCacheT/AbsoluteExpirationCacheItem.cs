@@ -2,23 +2,27 @@
 
 namespace MemoryCacheT
 {
-    public class AbsoluteExpirationCacheItem<TValue>:CacheItem<TValue>
+    public class AbsoluteExpirationCacheItem<TValue> : CacheItem<TValue>
     {
         private readonly DateTime _expirationDate;
 
-        public AbsoluteExpirationCacheItem(TValue value,DateTime expirationDate) : base(value)
+        internal AbsoluteExpirationCacheItem(IDateTimeProvider dateTimeProvider, TValue value, DateTime expirationDate)
+            : base(dateTimeProvider, value)
         {
             _expirationDate = expirationDate;
         }
 
-        public override TValue GetValue(DateTime now)
+        public AbsoluteExpirationCacheItem(TValue value, DateTime expirationDate)
+            : this(new DateTimeProvider(), value, expirationDate) { }
+
+        public override TValue GetValue()
         {
             return Value;
         }
 
-        public override bool IsExpired(DateTime now)
+        public override bool IsExpired()
         {
-            return now >= _expirationDate;
+            return DateTimeProvider.Now >= _expirationDate;
         }
     }
 }

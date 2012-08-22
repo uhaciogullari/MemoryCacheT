@@ -1,11 +1,13 @@
 ﻿using System;
+using Moq;
 using NUnit.Framework;
 
 namespace MemoryCacheT.Test
 {
-    public class CacheItemTestBase
+    internal class CacheItemTestBase
     {
         protected ICacheItem<int> CacheItem;
+        protected Mock<IDateTimeProvider> DateTimeProviderMock;
         protected int Value;
         protected DateTime Now;
 
@@ -13,13 +15,14 @@ namespace MemoryCacheT.Test
         public void Setup()
         {
             Now = new DateTime(2012, 8, 20);
+            DateTimeProviderMock = new Mock<IDateTimeProvider>(MockBehavior.Strict);
             Value = 7;
             CacheItem = CreateCacheItem();
         }
 
         protected virtual ICacheItem<int> CreateCacheItem()
         {
-            return new NonExpiringCacheItem<int>(Value);
+            return new NonExpiringCacheItem<int>(DateTimeProviderMock.Object,Value);
         }
     }
 }
