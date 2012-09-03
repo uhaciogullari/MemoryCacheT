@@ -15,6 +15,11 @@ namespace MemoryCacheT
         public AbsoluteExpirationCacheItem(TValue value, DateTime expirationDate)
             : this(new DateTimeProvider(), value, expirationDate) { }
 
+        public override ICacheItem<TValue> CreateNewCacheItem(TValue value)
+        {
+            return new AbsoluteExpirationCacheItem<TValue>(value, _expirationDate);
+        }
+
         public override TValue Value
         {
             get { return CacheItemValue; }

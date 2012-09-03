@@ -13,18 +13,26 @@ namespace MemoryCacheT
             CacheItemValue = value;
         }
 
+        public abstract ICacheItem<TValue> CreateNewCacheItem(TValue value);
+
         public abstract TValue Value { get; }
 
         public abstract bool IsExpired();
 
         public void Expire()
         {
-            OnExpire(CacheItemValue, DateTimeProvider.Now);
+            if (OnExpire != null)
+            {
+                OnExpire(CacheItemValue, DateTimeProvider.Now);
+            }
         }
 
         public void Remove()
         {
-            OnRemove(CacheItemValue, DateTimeProvider.Now);
+            if (OnRemove != null)
+            {
+                OnRemove(CacheItemValue, DateTimeProvider.Now);
+            }
         }
 
         public Action<TValue, DateTime> OnExpire { get; set; }

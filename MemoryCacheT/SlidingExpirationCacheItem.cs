@@ -17,6 +17,11 @@ namespace MemoryCacheT
         public SlidingExpirationCacheItem(TValue value, TimeSpan cacheInterval)
             : this(new DateTimeProvider(), value, cacheInterval) { }
 
+        public override ICacheItem<TValue> CreateNewCacheItem(TValue value)
+        {
+            return new SlidingExpirationCacheItem<TValue>(value, _cacheInterval);
+        }
+
         public override TValue Value
         {
             get

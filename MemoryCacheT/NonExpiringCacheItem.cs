@@ -6,6 +6,11 @@
 
         public NonExpiringCacheItem(TValue value) : this(new DateTimeProvider(), value) { }
 
+        public override ICacheItem<TValue> CreateNewCacheItem(TValue value)
+        {
+            return new NonExpiringCacheItem<TValue>(value);
+        }
+
         public override TValue Value
         {
             get { return CacheItemValue; }
@@ -15,6 +20,8 @@
         {
             return false;
         }
+
+
 
     }
 }
