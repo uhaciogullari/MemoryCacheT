@@ -16,6 +16,12 @@ namespace MemoryCacheT.Test
 
             Assert.True(isOnExpireCalled);
         }
+
+        [Test]
+        public void Expire_OnExpireIsNotAssigned_NoExceptions()
+        {
+            CacheItem.Expire();
+        }
         
         [Test]
         public void Remove_OnRemoveIsAssigned_DelegateCalled()
@@ -28,6 +34,12 @@ namespace MemoryCacheT.Test
             CacheItem.Remove();
 
             Assert.True(isOnRemoveCalled);
+        }
+
+        [Test]
+        public void Remove_OnRemoveIsNotAssigned_NoExceptions()
+        {
+            CacheItem.Remove();
         }
 
     }
