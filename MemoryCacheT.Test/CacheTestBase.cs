@@ -18,7 +18,7 @@ namespace MemoryCacheT.Test
             DateTimeProviderMock = new Mock<IDateTimeProvider>(MockBehavior.Strict);
             TimerInterval = new TimeSpan(0, 0, 1, 0);
 
-            TimerMock.SetupSet(mock => mock.Interval = It.Is<double>(interval => interval > default(double)));
+            TimerMock.SetupSet(mock => mock.Interval = It.Is<double>(interval => interval > double.Epsilon));
             TimerMock.Setup(mock => mock.Start()).Verifiable();
 
             Cache = new Cache<string, int>(TimerMock.Object, DateTimeProviderMock.Object, TimerInterval);

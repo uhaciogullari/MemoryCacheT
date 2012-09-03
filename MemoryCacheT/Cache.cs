@@ -26,7 +26,7 @@ namespace MemoryCacheT
                 throw new ArgumentNullException("dateTimeProvider");
             }
 
-            if (timerInterval.TotalMilliseconds <= default(double))
+            if (timerInterval.TotalMilliseconds <= double.Epsilon)
             {
                 throw new ArgumentException("Timer interval should be greater then zero miliseconds");
             }
@@ -87,7 +87,7 @@ namespace MemoryCacheT
 
         public bool TryAdd(TKey key, ICacheItem<TValue> cacheItem)
         {
-            if(cacheItem ==null)
+            if (cacheItem == null)
             {
                 throw new ArgumentNullException("cacheItem");
             }
@@ -102,7 +102,7 @@ namespace MemoryCacheT
 
             bool result = _cachedItems.TryGetValue(key, out cacheItemValue);
 
-            if(result)
+            if (result)
             {
                 value = cacheItemValue.Value;
             }
@@ -114,5 +114,31 @@ namespace MemoryCacheT
         {
             return _cachedItems.TryGetValue(key, out value);
         }
+
+        public bool TryUpdate(TKey key, TValue newValue)
+        {
+            return TryUpdate(key, oldCacheItem => oldCacheItem.CreateNewCacheItem(newValue));
+        }
+
+        public bool TryUpdate(TKey key, ICacheItem<TValue> newCacheItem)
+        {
+            return TryUpdate(key, oldCacheItem => newCacheItem);
+        }
+
+        private bool TryUpdate(TKey key, Func<ICacheItem<TValue>, ICacheItem<TValue>> updateValueFactory)
+        {
+            ICacheItem<TValue> currentCacheItem;
+
+            while (_cachedItems.TryGetValue(key, out currentCacheItem))
+            {
+                if (_cachedItems.TryUpdate(key, updateValueFactory(currentCacheItem), currentCacheItem))
+                {
+                    return true;
+                }
+            }
+
+            return false;
+        }
+
     }
 }
