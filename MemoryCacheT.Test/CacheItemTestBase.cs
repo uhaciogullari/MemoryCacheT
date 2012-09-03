@@ -22,7 +22,17 @@ namespace MemoryCacheT.Test
 
         protected virtual ICacheItem<int> CreateCacheItem()
         {
-            return new NonExpiringCacheItem<int>(DateTimeProviderMock.Object,Value);
+            return new NonExpiringCacheItem<int>(DateTimeProviderMock.Object, Value);
         }
+
+        [TearDown]
+        public void TearDown()
+        {
+            DateTimeProviderMock.VerifyAll();
+            FinalizeTearDown();
+        }
+
+        protected virtual void FinalizeTearDown() { }
+
     }
 }
