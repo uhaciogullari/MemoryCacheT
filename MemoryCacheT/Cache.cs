@@ -109,5 +109,10 @@ namespace MemoryCacheT
 
             return result;
         }
+
+        public bool TryGetValue(TKey key, out ICacheItem<TValue> value)
+        {
+            return _cachedItems.TryGetValue(key, out value);
+        }
     }
 }

@@ -13,5 +13,6 @@ namespace MemoryCacheT
         void Clear();
         bool TryAdd(TKey key, ICacheItem<TValue> cacheItem);
         bool TryGetValue(TKey key, out TValue value);
+        bool TryGetValue(TKey key, out ICacheItem<TValue> value);
     }
 }
