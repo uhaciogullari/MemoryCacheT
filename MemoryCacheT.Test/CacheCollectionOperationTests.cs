@@ -1,24 +1,11 @@
 ﻿using System;
-using System.Collections.Generic;
 using NUnit.Framework;
-using System.Linq;
 
 namespace MemoryCacheT.Test
 {
     [TestFixture]
     internal class CacheCollectionOperationTests : CacheTestBase
     {
-        private int _value;
-        private NonExpiringCacheItem<int> _cacheItem;
-        private string _key;
-
-        protected override void FinalizeSetup()
-        {
-            _value = 7;
-            _key = "key";
-            _cacheItem = new NonExpiringCacheItem<int>(_value);
-        }
-
         //Add
         [Test]
         public void Add_NullKey_ThrowsException()
