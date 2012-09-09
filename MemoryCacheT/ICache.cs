@@ -13,6 +13,7 @@ namespace MemoryCacheT
         void Add(TKey key, TValue value);
         void Add(TKey key, ICacheItem<TValue> cacheItem);
 
+        bool TryAdd(TKey key, TValue value);
         bool TryAdd(TKey key, ICacheItem<TValue> cacheItem);
         
         bool TryGetValue(TKey key, out TValue value);

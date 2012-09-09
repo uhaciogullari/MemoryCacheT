@@ -119,6 +119,12 @@ namespace MemoryCacheT
             _cachedItems.Add(key, cacheItem);
         }
 
+        public bool TryAdd(TKey key, TValue value)
+        {
+            ICacheItem<TValue> cacheItem = _cacheItemFactory.CreateInstance(value);
+            return TryAdd(key, cacheItem);
+        }
+
         public bool TryAdd(TKey key, ICacheItem<TValue> cacheItem)
         {
             if (cacheItem == null)
