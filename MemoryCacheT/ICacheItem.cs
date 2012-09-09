@@ -5,9 +5,10 @@ namespace MemoryCacheT
     public interface ICacheItem<TValue>
     {
         TValue Value { get; }
+        
         ICacheItem<TValue> CreateNewCacheItem(TValue value);
 
-        bool IsExpired();
+        bool IsExpired { get; }
 
         void Expire();
         void Remove();

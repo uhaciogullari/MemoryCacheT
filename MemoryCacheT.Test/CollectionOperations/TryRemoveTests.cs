@@ -10,7 +10,7 @@ namespace MemoryCacheT.Test.CollectionOperations
         {
             _cache.Add(_key, _cacheItem);
 
-            bool result = _cache.TryRemove(_key);
+            bool result = _cache.Remove(_key);
 
             Assert.True(result);
         }
@@ -18,7 +18,7 @@ namespace MemoryCacheT.Test.CollectionOperations
         [Test]
         public void TryRemove_KeyDoesNotExist_ReturnsFalse()
         {
-            bool result = _cache.TryRemove(_key);
+            bool result = _cache.Remove(_key);
 
             Assert.False(result);
         }
@@ -29,7 +29,7 @@ namespace MemoryCacheT.Test.CollectionOperations
             _cache.Add(_key, _cacheItem);
 
             int value;
-            bool result = _cache.TryRemove(_key, out value);
+            bool result = _cache.Remove(_key, out value);
 
             Assert.True(result);
         }
@@ -40,7 +40,7 @@ namespace MemoryCacheT.Test.CollectionOperations
             _cache.Add(_key, _cacheItem);
 
             int value;
-            _cache.TryRemove(_key, out value);
+            _cache.Remove(_key, out value);
 
             Assert.AreEqual(_value, value);
         }
@@ -49,7 +49,7 @@ namespace MemoryCacheT.Test.CollectionOperations
         public void TryRemoveGetValue_KeyDoesNotExist_ReturnsFalse()
         {
             int value;
-            bool result = _cache.TryRemove(_key, out value);
+            bool result = _cache.Remove(_key, out value);
 
             Assert.False(result);
         }
@@ -60,7 +60,7 @@ namespace MemoryCacheT.Test.CollectionOperations
             _cache.Add(_key, _cacheItem);
 
             ICacheItem<int> cacheItem;
-            bool result = _cache.TryRemove(_key, out cacheItem);
+            bool result = _cache.Remove(_key, out cacheItem);
 
             Assert.True(result);
         }
@@ -71,7 +71,7 @@ namespace MemoryCacheT.Test.CollectionOperations
             _cache.Add(_key, _cacheItem);
 
             ICacheItem<int> cacheItem;
-            _cache.TryRemove(_key, out cacheItem);
+            _cache.Remove(_key, out cacheItem);
 
             Assert.AreEqual(_cacheItem, cacheItem);
         }
@@ -80,7 +80,7 @@ namespace MemoryCacheT.Test.CollectionOperations
         public void TryRemoveCacheItem_KeyDoesNotExist_ReturnsFalse()
         {
             ICacheItem<int> cacheItem;
-            bool result = _cache.TryRemove(_key, out cacheItem);
+            bool result = _cache.Remove(_key, out cacheItem);
 
             Assert.False(result);
         }

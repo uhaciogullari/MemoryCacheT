@@ -20,12 +20,9 @@
             get { return CacheItemValue; }
         }
 
-        public override bool IsExpired()
+        public override bool IsExpired
         {
-            return false;
+            get { return false; }
         }
-
-
-
     }
 }

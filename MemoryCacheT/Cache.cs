@@ -55,7 +55,7 @@ namespace MemoryCacheT
 
         private void CheckExpiredItems(object sender, ElapsedEventArgs e)
         {
-            IEnumerable<TKey> expiredItemKeys = _cachedItems.Where(item => item.Value.IsExpired()).Select(item => item.Key);
+            IEnumerable<TKey> expiredItemKeys = _cachedItems.Where(item => item.Value.IsExpired).Select(item => item.Key);
 
             foreach (TKey expiredItemKey in expiredItemKeys)
             {
@@ -67,15 +67,17 @@ namespace MemoryCacheT
             }
         }
 
+        public bool Remove(KeyValuePair<TKey, TValue> item)
+        {
+            throw new NotImplementedException();
+        }
+
         public int Count
         {
             get { return _cachedItems.Count; }
         }
 
-        public bool IsEmpty
-        {
-            get { return _cachedItems.IsEmpty; }
-        }
+        public bool IsReadOnly { get { return false; } }
 
         public TValue this[TKey key]
         {
@@ -102,6 +104,17 @@ namespace MemoryCacheT
             {
                 cacheItem.Remove();
             }
+        }
+
+        public bool Contains(KeyValuePair<TKey, TValue> item)
+        {
+            TValue value;
+            return TryGetValue(item.Key, out value) && ReferenceEquals(value, item.Value);
+        }
+
+        public void CopyTo(KeyValuePair<TKey, TValue>[] array, int arrayIndex)
+        {
+            this.ToList().CopyTo(array, arrayIndex);
         }
 
         public bool ContainsKey(TKey key)
@@ -201,13 +214,13 @@ namespace MemoryCacheT
             return false;
         }
 
-        public bool TryRemove(TKey key)
+        public bool Remove(TKey key)
         {
             ICacheItem<TValue> cacheItem;
             return _cachedItems.TryRemove(key, out cacheItem);
         }
 
-        public bool TryRemove(TKey key, out TValue value)
+        public bool Remove(TKey key, out TValue value)
         {
             value = default(TValue);
             ICacheItem<TValue> cacheItem;
@@ -221,7 +234,7 @@ namespace MemoryCacheT
             return false;
         }
 
-        public bool TryRemove(TKey key, out ICacheItem<TValue> value)
+        public bool Remove(TKey key, out ICacheItem<TValue> value)
         {
             return _cachedItems.TryRemove(key, out value);
         }

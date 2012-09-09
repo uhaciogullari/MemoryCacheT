@@ -29,9 +29,9 @@ namespace MemoryCacheT
             get { return CacheItemValue; }
         }
 
-        public override bool IsExpired()
+        public override bool IsExpired
         {
-            return DateTimeProvider.Now >= _expirationDate;
+            get { return DateTimeProvider.Now >= _expirationDate; }
         }
     }
 }

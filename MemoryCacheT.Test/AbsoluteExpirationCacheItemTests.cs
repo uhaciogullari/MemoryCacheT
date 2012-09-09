@@ -18,7 +18,7 @@ namespace MemoryCacheT.Test
         public void IsExpired_CurentDateTimeIsLessThanExpirationDate_ReturnsFalse()
         {
             DateTimeProviderMock.SetupGet(item => item.Now).Returns(Now);
-            bool isExpired = CacheItem.IsExpired();
+            bool isExpired = CacheItem.IsExpired;
 
             Assert.False(isExpired);
         }
@@ -28,7 +28,7 @@ namespace MemoryCacheT.Test
         {
             Now = _expirationDate.AddDays(1);
             DateTimeProviderMock.SetupGet(item => item.Now).Returns(Now);
-            bool isExpired = CacheItem.IsExpired();
+            bool isExpired = CacheItem.IsExpired;
 
             Assert.True(isExpired);
         }

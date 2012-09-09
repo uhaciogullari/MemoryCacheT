@@ -23,7 +23,7 @@ namespace MemoryCacheT.Test
         public void IsExpired_IntervalHasNotElapsed_ReturnsFalse()
         {
             DateTimeProviderMock.SetupGet(mock => mock.Now).Returns(Now);
-            bool isExpired = CacheItem.IsExpired();
+            bool isExpired = CacheItem.IsExpired;
 
             Assert.False(isExpired);
         }
@@ -33,7 +33,7 @@ namespace MemoryCacheT.Test
         {
             DateTime elapsedDateTime = (_createDateTime + _cacheInterval).AddMinutes(5);
             DateTimeProviderMock.SetupGet(mock => mock.Now).Returns(elapsedDateTime);
-            bool isExpired = CacheItem.IsExpired();
+            bool isExpired = CacheItem.IsExpired;
 
             Assert.True(isExpired);
         }
@@ -49,7 +49,7 @@ namespace MemoryCacheT.Test
             Now = (_createDateTime + _cacheInterval).AddMinutes(3);
             DateTimeProviderMock.SetupGet(item => item.Now).Returns(Now);
 
-            bool isExpired = CacheItem.IsExpired();
+            bool isExpired = CacheItem.IsExpired;
             Assert.False(isExpired);
         }
 
@@ -64,7 +64,7 @@ namespace MemoryCacheT.Test
             Now = (_createDateTime + _cacheInterval).AddMinutes(7);
             DateTimeProviderMock.SetupGet(item => item.Now).Returns(Now);
 
-            bool isExpired = CacheItem.IsExpired();
+            bool isExpired = CacheItem.IsExpired;
             Assert.True(isExpired);
         }
 

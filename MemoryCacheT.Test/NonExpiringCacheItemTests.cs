@@ -9,7 +9,7 @@ namespace MemoryCacheT.Test
         [Test]
         public void IsExpired_CurrentTimeIsPast_ReturnsFalse()
         {
-            bool isExpired = CacheItem.IsExpired();
+            bool isExpired = CacheItem.IsExpired;
 
             Assert.False(isExpired);
         }

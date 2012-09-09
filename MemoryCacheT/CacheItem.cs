@@ -17,7 +17,7 @@ namespace MemoryCacheT
 
         public abstract TValue Value { get; }
 
-        public abstract bool IsExpired();
+        public abstract bool IsExpired { get; }
 
         public void Expire()
         {
