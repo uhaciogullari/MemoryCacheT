@@ -4,11 +4,13 @@ namespace MemoryCacheT
 {
     public interface ICache<TKey, TValue> : IEnumerable<KeyValuePair<TKey, TValue>>
     {
-        int Count { get; }
-        bool IsEmpty { get; }
-
+        TValue this[TKey key] { get; set; }
+        
         ICollection<TKey> Keys { get; }
         ICollection<TValue> Values { get; }
+
+        int Count { get; }
+        bool IsEmpty { get; }
 
         void Add(KeyValuePair<TKey, TValue> keyValuePair);
         void Add(TKey key, TValue value);

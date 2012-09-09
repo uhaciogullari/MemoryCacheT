@@ -77,6 +77,12 @@ namespace MemoryCacheT
             get { return _cachedItems.IsEmpty; }
         }
 
+        public TValue this[TKey key]
+        {
+            get { return _cachedItems[key].Value; }
+            set { _cachedItems[key] = _cacheItemFactory.CreateInstance(value); }
+        }
+
         public ICollection<TKey> Keys
         {
             get { return _cachedItems.Keys; }
@@ -116,11 +122,11 @@ namespace MemoryCacheT
 
         public void Add(TKey key, TValue value)
         {
-            if(key == null)
+            if (key == null)
             {
                 throw new ArgumentNullException("key");
             }
-            
+
             ICacheItem<TValue> cacheItem = _cacheItemFactory.CreateInstance(value);
             Add(key, cacheItem);
         }
