@@ -10,6 +10,7 @@ namespace MemoryCacheT
         IEnumerable<TKey> Keys { get; }
         IEnumerable<TValue> Values { get; }
 
+        void Add(TKey key, TValue value);
         void Add(TKey key, ICacheItem<TValue> cacheItem);
 
         bool TryAdd(TKey key, ICacheItem<TValue> cacheItem);

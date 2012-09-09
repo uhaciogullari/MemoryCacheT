@@ -46,7 +46,9 @@
     <Compile Include="CacheItem.cs" />
     <Compile Include="ConcurrentDictionaryAdapter.cs" />
     <Compile Include="DateTimeProvider.cs" />
+    <Compile Include="DefaultCacheItemFactory.cs" />
     <Compile Include="ICache.cs" />
+    <Compile Include="ICacheItemFactory.cs" />
     <Compile Include="IConcurrentDictionary.cs" />
     <Compile Include="IDateTimeProvider.cs" />
     <Compile Include="ITimer.cs" />

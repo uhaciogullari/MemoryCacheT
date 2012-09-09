@@ -12,9 +12,14 @@ namespace MemoryCacheT
 
         private readonly ITimer _timer;
         private readonly IDateTimeProvider _dateTimeProvider;
+        private readonly ICacheItemFactory _cacheItemFactory;
         private readonly IConcurrentDictionary<TKey, ICacheItem<TValue>> _cachedItems;
 
-        internal Cache(ITimer timer, IDateTimeProvider dateTimeProvider, TimeSpan timerInterval, IEqualityComparer<TKey> keyEqualityComparer = null)
+        internal Cache(ITimer timer,
+                       IDateTimeProvider dateTimeProvider,
+                       TimeSpan timerInterval,
+                       IEqualityComparer<TKey> keyEqualityComparer = null,
+                       ICacheItemFactory cacheItemFactory = null)
         {
             if (timer == null)
             {
@@ -37,6 +42,8 @@ namespace MemoryCacheT
             _cachedItems = keyEqualityComparer != null
                               ? new ConcurrentDictionaryAdapter<TKey, ICacheItem<TValue>>(keyEqualityComparer)
                               : new ConcurrentDictionaryAdapter<TKey, ICacheItem<TValue>>();
+
+            _cacheItemFactory = cacheItemFactory ?? new DefaultCacheItemFactory();
 
             _timer.Elapsed += CheckExpiredItems;
             _timer.Start();
@@ -94,6 +101,11 @@ namespace MemoryCacheT
         public bool ContainsKey(TKey key)
         {
             return _cachedItems.ContainsKey(key);
+        }
+
+        public void Add(TKey key, TValue value)
+        {
+            throw new NotImplementedException();
         }
 
         public void Add(TKey key, ICacheItem<TValue> cacheItem)
