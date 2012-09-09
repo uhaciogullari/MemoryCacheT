@@ -49,8 +49,8 @@ namespace MemoryCacheT
             _timer.Start();
         }
 
-        public Cache(TimeSpan timerInterval, IEqualityComparer<TKey> keyEqualityComparer = null)
-            : this(new TimerAdapter(), new DateTimeProvider(), timerInterval, keyEqualityComparer)
+        public Cache(TimeSpan timerInterval, IEqualityComparer<TKey> keyEqualityComparer = null, ICacheItemFactory cacheItemFactory = null)
+            : this(new TimerAdapter(), new DateTimeProvider(), timerInterval, keyEqualityComparer, cacheItemFactory)
         { }
 
         private void CheckExpiredItems(object sender, ElapsedEventArgs e)
@@ -105,17 +105,18 @@ namespace MemoryCacheT
 
         public void Add(TKey key, TValue value)
         {
-            throw new NotImplementedException();
+            ICacheItem<TValue> cacheItem = _cacheItemFactory.CreateInstance(value);
+            Add(key, cacheItem);
         }
 
         public void Add(TKey key, ICacheItem<TValue> cacheItem)
         {
-            if(cacheItem == null)
+            if (cacheItem == null)
             {
                 throw new ArgumentNullException("cacheItem");
             }
-            
-            _cachedItems.Add(key,cacheItem);
+
+            _cachedItems.Add(key, cacheItem);
         }
 
         public bool TryAdd(TKey key, ICacheItem<TValue> cacheItem)
@@ -182,8 +183,8 @@ namespace MemoryCacheT
         {
             value = default(TValue);
             ICacheItem<TValue> cacheItem;
-            
-            if(_cachedItems.TryRemove(key,out cacheItem))
+
+            if (_cachedItems.TryRemove(key, out cacheItem))
             {
                 value = cacheItem.Value;
                 return true;
