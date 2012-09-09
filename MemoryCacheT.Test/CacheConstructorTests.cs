@@ -8,19 +8,13 @@ namespace MemoryCacheT.Test
         [Test]
         public void Constructor_NullTimer_ThrowsException()
         {
-            Assert.Throws<ArgumentNullException>(() => new Cache<string, int>(null, _dateTimeProviderMock.Object, _timerInterval));
-        }
-
-        [Test]
-        public void Constructor_NullDateTimeProvider_ThrowsException()
-        {
-            Assert.Throws<ArgumentNullException>(() => new Cache<string, int>(_timerMock.Object, null, _timerInterval));
+            Assert.Throws<ArgumentNullException>(() => new Cache<string, int>(null, _timerInterval));
         }
 
         [Test]
         public void Constructor_ZeroTimeSpan_ThrowsException()
         {
-            Assert.Throws<ArgumentException>(() => new Cache<string, int>(_timerMock.Object, _dateTimeProviderMock.Object, default(TimeSpan)));
+            Assert.Throws<ArgumentException>(() => new Cache<string, int>(_timerMock.Object, default(TimeSpan)));
         }
 
         [Test]
@@ -29,7 +23,7 @@ namespace MemoryCacheT.Test
             _timerMock.SetupSet(mock => mock.Interval = _timerInterval.TotalMilliseconds);
             _timerMock.Setup(mock => mock.Start()).Verifiable();
 
-            new Cache<int, string>(_timerMock.Object, _dateTimeProviderMock.Object, _timerInterval);
+            new Cache<int, string>(_timerMock.Object, _timerInterval);
         }
 
 

@@ -8,7 +8,6 @@ namespace MemoryCacheT.Test
     {
         protected ICache<string, int> _cache;
         protected Mock<ITimer> _timerMock;
-        protected Mock<IDateTimeProvider> _dateTimeProviderMock;
         protected TimeSpan _timerInterval;
         protected int _value;
         protected string _key;
@@ -18,7 +17,6 @@ namespace MemoryCacheT.Test
         public void Setup()
         {
             _timerMock = new Mock<ITimer>(MockBehavior.Strict);
-            _dateTimeProviderMock = new Mock<IDateTimeProvider>(MockBehavior.Strict);
             _timerInterval = new TimeSpan(0, 0, 1, 0);
 
             _timerMock.SetupSet(mock => mock.Interval = It.Is<double>(interval => interval > double.Epsilon));
@@ -28,7 +26,7 @@ namespace MemoryCacheT.Test
             _key = "key";
             _cacheItem = new NonExpiringCacheItem<int>(_value);
 
-            _cache = new Cache<string, int>(_timerMock.Object, _dateTimeProviderMock.Object, _timerInterval);
+            _cache = new Cache<string, int>(_timerMock.Object, _timerInterval);
             FinalizeSetup();
         }
 
@@ -38,7 +36,6 @@ namespace MemoryCacheT.Test
         public void TearDown()
         {
             _timerMock.VerifyAll();
-            _dateTimeProviderMock.VerifyAll();
             FinalizeTearDown();
         }
 

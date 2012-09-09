@@ -11,12 +11,10 @@ namespace MemoryCacheT
         private class TimerAdapter : Timer, ITimer { }
 
         private readonly ITimer _timer;
-        private readonly IDateTimeProvider _dateTimeProvider;
         private readonly ICacheItemFactory _cacheItemFactory;
         private readonly IConcurrentDictionary<TKey, ICacheItem<TValue>> _cachedItems;
 
         internal Cache(ITimer timer,
-                       IDateTimeProvider dateTimeProvider,
                        TimeSpan timerInterval,
                        IEqualityComparer<TKey> keyEqualityComparer = null,
                        ICacheItemFactory cacheItemFactory = null)
@@ -26,18 +24,12 @@ namespace MemoryCacheT
                 throw new ArgumentNullException("timer");
             }
 
-            if (dateTimeProvider == null)
-            {
-                throw new ArgumentNullException("dateTimeProvider");
-            }
-
             if (timerInterval.TotalMilliseconds <= double.Epsilon)
             {
                 throw new ArgumentException("Timer interval should be greater then zero miliseconds");
             }
 
             _timer = timer;
-            _dateTimeProvider = dateTimeProvider;
             _timer.Interval = timerInterval.TotalMilliseconds;
             _cachedItems = keyEqualityComparer != null
                               ? new ConcurrentDictionaryAdapter<TKey, ICacheItem<TValue>>(keyEqualityComparer)
@@ -50,7 +42,7 @@ namespace MemoryCacheT
         }
 
         public Cache(TimeSpan timerInterval, IEqualityComparer<TKey> keyEqualityComparer = null, ICacheItemFactory cacheItemFactory = null)
-            : this(new TimerAdapter(), new DateTimeProvider(), timerInterval, keyEqualityComparer, cacheItemFactory)
+            : this(new TimerAdapter(), timerInterval, keyEqualityComparer, cacheItemFactory)
         { }
 
         private void CheckExpiredItems(object sender, ElapsedEventArgs e)
@@ -69,7 +61,7 @@ namespace MemoryCacheT
 
         public bool Remove(KeyValuePair<TKey, TValue> item)
         {
-            throw new NotImplementedException();
+            throw new NotSupportedException();
         }
 
         public int Count
@@ -108,8 +100,7 @@ namespace MemoryCacheT
 
         public bool Contains(KeyValuePair<TKey, TValue> item)
         {
-            TValue value;
-            return TryGetValue(item.Key, out value) && ReferenceEquals(value, item.Value);
+            throw new NotSupportedException();
         }
 
         public void CopyTo(KeyValuePair<TKey, TValue>[] array, int arrayIndex)
@@ -124,9 +115,13 @@ namespace MemoryCacheT
 
         public void Add(KeyValuePair<TKey, TValue> keyValuePair)
         {
+            // ReSharper disable CompareNonConstrainedGenericWithNull
             if (keyValuePair.Key == null)
+            // ReSharper restore CompareNonConstrainedGenericWithNull
             {
+                // ReSharper disable NotResolvedInText
                 throw new ArgumentNullException("key");
+                // ReSharper restore NotResolvedInText
             }
 
             ICacheItem<TValue> cacheItem = _cacheItemFactory.CreateInstance(keyValuePair.Value);
@@ -135,7 +130,9 @@ namespace MemoryCacheT
 
         public void Add(TKey key, TValue value)
         {
+            // ReSharper disable CompareNonConstrainedGenericWithNull
             if (key == null)
+            // ReSharper restore CompareNonConstrainedGenericWithNull
             {
                 throw new ArgumentNullException("key");
             }
