@@ -17,7 +17,11 @@ namespace MemoryCacheT
 
         public override ICacheItem<TValue> CreateNewCacheItem(TValue value)
         {
-            return new AbsoluteExpirationCacheItem<TValue>(value, _expirationDate);
+            return new AbsoluteExpirationCacheItem<TValue>(value, _expirationDate)
+                {
+                    OnExpire = OnExpire,
+                    OnRemove = OnRemove
+                };
         }
 
         public override TValue Value

@@ -8,7 +8,11 @@
 
         public override ICacheItem<TValue> CreateNewCacheItem(TValue value)
         {
-            return new NonExpiringCacheItem<TValue>(value);
+            return new NonExpiringCacheItem<TValue>(value)
+                {
+                    OnExpire = OnExpire,
+                    OnRemove = OnRemove
+                };
         }
 
         public override TValue Value

@@ -19,7 +19,11 @@ namespace MemoryCacheT
 
         public override ICacheItem<TValue> CreateNewCacheItem(TValue value)
         {
-            return new SlidingExpirationCacheItem<TValue>(value, _cacheInterval);
+            return new SlidingExpirationCacheItem<TValue>(value, _cacheInterval)
+                {
+                    OnExpire = OnExpire,
+                    OnRemove = OnRemove
+                };
         }
 
         public override TValue Value
