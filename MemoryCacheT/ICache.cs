@@ -25,5 +25,7 @@ namespace MemoryCacheT
         bool TryRemove(TKey key, out ICacheItem<TValue> value);
         void Clear();
 
+        bool ContainsKey(TKey key);
+
     }
 }

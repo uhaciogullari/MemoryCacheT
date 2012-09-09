@@ -23,7 +23,6 @@ namespace MemoryCacheT.Test
             Assert.False(isExpired);
         }
 
-
         [Test]
         public void IsExpired_CurentDateTimeIsGreaterThanExpirationDate_ReturnsTrue()
         {
@@ -34,6 +33,8 @@ namespace MemoryCacheT.Test
             Assert.True(isExpired);
         }
 
+
+        [Test]
         public void CreateNewCacheItem_NewValue_ValueIsUpdated()
         {
             int newValue = Value + 7;

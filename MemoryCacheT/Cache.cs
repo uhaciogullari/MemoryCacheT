@@ -91,6 +91,11 @@ namespace MemoryCacheT
             }
         }
 
+        public bool ContainsKey(TKey key)
+        {
+            return _cachedItems.ContainsKey(key);
+        }
+
         public void Add(TKey key, ICacheItem<TValue> cacheItem)
         {
             if(cacheItem == null)
