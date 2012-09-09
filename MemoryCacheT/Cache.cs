@@ -105,12 +105,22 @@ namespace MemoryCacheT
 
         public void Add(KeyValuePair<TKey, TValue> keyValuePair)
         {
+            if (keyValuePair.Key == null)
+            {
+                throw new ArgumentNullException("key");
+            }
+
             ICacheItem<TValue> cacheItem = _cacheItemFactory.CreateInstance(keyValuePair.Value);
             Add(keyValuePair.Key, cacheItem);
         }
 
         public void Add(TKey key, TValue value)
         {
+            if(key == null)
+            {
+                throw new ArgumentNullException("key");
+            }
+            
             ICacheItem<TValue> cacheItem = _cacheItemFactory.CreateInstance(value);
             Add(key, cacheItem);
         }
