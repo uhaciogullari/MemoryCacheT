@@ -44,8 +44,10 @@
     <Compile Include="AbsoluteExpirationCacheItem.cs" />
     <Compile Include="Cache.cs" />
     <Compile Include="CacheItem.cs" />
+    <Compile Include="ConcurrentDictionaryAdapter.cs" />
     <Compile Include="DateTimeProvider.cs" />
     <Compile Include="ICache.cs" />
+    <Compile Include="IConcurrentDictionary.cs" />
     <Compile Include="IDateTimeProvider.cs" />
     <Compile Include="ITimer.cs" />
     <Compile Include="ICacheItem.cs" />

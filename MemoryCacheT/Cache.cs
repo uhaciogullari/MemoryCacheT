@@ -1,5 +1,5 @@
 ﻿using System;
-using System.Collections.Concurrent;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Timers;
@@ -12,7 +12,7 @@ namespace MemoryCacheT
 
         private readonly ITimer _timer;
         private readonly IDateTimeProvider _dateTimeProvider;
-        private readonly ConcurrentDictionary<TKey, ICacheItem<TValue>> _cachedItems;
+        private readonly IConcurrentDictionary<TKey, ICacheItem<TValue>> _cachedItems;
 
         internal Cache(ITimer timer, IDateTimeProvider dateTimeProvider, TimeSpan timerInterval, IEqualityComparer<TKey> keyEqualityComparer = null)
         {
@@ -35,8 +35,8 @@ namespace MemoryCacheT
             _dateTimeProvider = dateTimeProvider;
             _timer.Interval = timerInterval.TotalMilliseconds;
             _cachedItems = keyEqualityComparer != null
-                              ? new ConcurrentDictionary<TKey, ICacheItem<TValue>>(keyEqualityComparer)
-                              : new ConcurrentDictionary<TKey, ICacheItem<TValue>>();
+                              ? new ConcurrentDictionaryAdapter<TKey, ICacheItem<TValue>>(keyEqualityComparer)
+                              : new ConcurrentDictionaryAdapter<TKey, ICacheItem<TValue>>();
 
             _timer.Elapsed += CheckExpiredItems;
             _timer.Start();
@@ -82,7 +82,23 @@ namespace MemoryCacheT
 
         public void Clear()
         {
+            ICollection<ICacheItem<TValue>> valueList = _cachedItems.Values;
             _cachedItems.Clear();
+
+            foreach (ICacheItem<TValue> cacheItem in valueList)
+            {
+                cacheItem.Remove();
+            }
+        }
+
+        public void Add(TKey key, ICacheItem<TValue> cacheItem)
+        {
+            if(cacheItem == null)
+            {
+                throw new ArgumentNullException("cacheItem");
+            }
+            
+            _cachedItems.Add(key,cacheItem);
         }
 
         public bool TryAdd(TKey key, ICacheItem<TValue> cacheItem)
@@ -91,7 +107,6 @@ namespace MemoryCacheT
             {
                 throw new ArgumentNullException("cacheItem");
             }
-
             return _cachedItems.TryAdd(key, cacheItem);
         }
 
@@ -110,9 +125,9 @@ namespace MemoryCacheT
             return result;
         }
 
-        public bool TryGetValue(TKey key, out ICacheItem<TValue> value)
+        public bool TryGetValue(TKey key, out ICacheItem<TValue> cacheItem)
         {
-            return _cachedItems.TryGetValue(key, out value);
+            return _cachedItems.TryGetValue(key, out cacheItem);
         }
 
         public bool TryUpdate(TKey key, TValue newValue)
@@ -140,5 +155,40 @@ namespace MemoryCacheT
             return false;
         }
 
+        public bool TryRemove(TKey key)
+        {
+            ICacheItem<TValue> cacheItem;
+            return _cachedItems.TryRemove(key, out cacheItem);
+        }
+
+        public bool TryRemove(TKey key, out TValue value)
+        {
+            value = default(TValue);
+            ICacheItem<TValue> cacheItem;
+            
+            if(_cachedItems.TryRemove(key,out cacheItem))
+            {
+                value = cacheItem.Value;
+                return true;
+            }
+
+            return false;
+        }
+
+        public bool TryRemove(TKey key, out ICacheItem<TValue> value)
+        {
+            return _cachedItems.TryRemove(key, out value);
+        }
+
+        public IEnumerator<KeyValuePair<TKey, TValue>> GetEnumerator()
+        {
+            return _cachedItems.Select(item => new KeyValuePair<TKey, TValue>(item.Key, item.Value.Value))
+                               .GetEnumerator();
+        }
+
+        IEnumerator IEnumerable.GetEnumerator()
+        {
+            return GetEnumerator();
+        }
     }
 }
