@@ -6,22 +6,22 @@ namespace MemoryCacheT.Test
 {
     internal class CacheTestBase
     {
-        protected ICache<string, int> Cache;
-        protected Mock<ITimer> TimerMock;
-        protected Mock<IDateTimeProvider> DateTimeProviderMock;
-        protected TimeSpan TimerInterval;
+        protected ICache<string, int> _cache;
+        protected Mock<ITimer> _timerMock;
+        protected Mock<IDateTimeProvider> _dateTimeProviderMock;
+        protected TimeSpan _timerInterval;
 
         [SetUp]
         public void Setup()
         {
-            TimerMock = new Mock<ITimer>(MockBehavior.Strict);
-            DateTimeProviderMock = new Mock<IDateTimeProvider>(MockBehavior.Strict);
-            TimerInterval = new TimeSpan(0, 0, 1, 0);
+            _timerMock = new Mock<ITimer>(MockBehavior.Strict);
+            _dateTimeProviderMock = new Mock<IDateTimeProvider>(MockBehavior.Strict);
+            _timerInterval = new TimeSpan(0, 0, 1, 0);
 
-            TimerMock.SetupSet(mock => mock.Interval = It.Is<double>(interval => interval > double.Epsilon));
-            TimerMock.Setup(mock => mock.Start()).Verifiable();
+            _timerMock.SetupSet(mock => mock.Interval = It.Is<double>(interval => interval > double.Epsilon));
+            _timerMock.Setup(mock => mock.Start()).Verifiable();
 
-            Cache = new Cache<string, int>(TimerMock.Object, DateTimeProviderMock.Object, TimerInterval);
+            _cache = new Cache<string, int>(_timerMock.Object, _dateTimeProviderMock.Object, _timerInterval);
             FinalizeSetup();
         }
 
@@ -30,8 +30,8 @@ namespace MemoryCacheT.Test
         [TearDown]
         public void TearDown()
         {
-            TimerMock.VerifyAll();
-            DateTimeProviderMock.VerifyAll();
+            _timerMock.VerifyAll();
+            _dateTimeProviderMock.VerifyAll();
             FinalizeTearDown();
         }
 

@@ -8,28 +8,28 @@ namespace MemoryCacheT.Test
         [Test]
         public void Constructor_NullTimer_ThrowsException()
         {
-            Assert.Throws<ArgumentNullException>(() => new Cache<string, int>(null, DateTimeProviderMock.Object, TimerInterval));
+            Assert.Throws<ArgumentNullException>(() => new Cache<string, int>(null, _dateTimeProviderMock.Object, _timerInterval));
         }
 
         [Test]
         public void Constructor_NullDateTimeProvider_ThrowsException()
         {
-            Assert.Throws<ArgumentNullException>(() => new Cache<string, int>(TimerMock.Object, null, TimerInterval));
+            Assert.Throws<ArgumentNullException>(() => new Cache<string, int>(_timerMock.Object, null, _timerInterval));
         }
 
         [Test]
         public void Constructor_ZeroTimeSpan_ThrowsException()
         {
-            Assert.Throws<ArgumentException>(() => new Cache<string, int>(TimerMock.Object, DateTimeProviderMock.Object, default(TimeSpan)));
+            Assert.Throws<ArgumentException>(() => new Cache<string, int>(_timerMock.Object, _dateTimeProviderMock.Object, default(TimeSpan)));
         }
 
         [Test]
         public void Constructor_Positive_IntervalIsAssignedToTimer()
         {
-            TimerMock.SetupSet(mock => mock.Interval = TimerInterval.TotalMilliseconds);
-            TimerMock.Setup(mock => mock.Start()).Verifiable();
+            _timerMock.SetupSet(mock => mock.Interval = _timerInterval.TotalMilliseconds);
+            _timerMock.Setup(mock => mock.Start()).Verifiable();
 
-            new Cache<int, string>(TimerMock.Object, DateTimeProviderMock.Object, TimerInterval);
+            new Cache<int, string>(_timerMock.Object, _dateTimeProviderMock.Object, _timerInterval);
         }
 
 

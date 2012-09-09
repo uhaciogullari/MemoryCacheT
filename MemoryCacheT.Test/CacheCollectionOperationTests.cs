@@ -23,29 +23,29 @@ namespace MemoryCacheT.Test
         [Test]
         public void Add_NullKey_ThrowsException()
         {
-            Assert.Throws<ArgumentNullException>(() => Cache.Add(null, _cacheItem));
+            Assert.Throws<ArgumentNullException>(() => _cache.Add(null, _cacheItem));
         }
 
         [Test]
         public void Add_NullCacheItem_ThrowsException()
         {
-            Assert.Throws<ArgumentNullException>(() => Cache.Add(_key, null));
+            Assert.Throws<ArgumentNullException>(() => _cache.Add(_key, null));
         }
 
         [Test]
         public void Add_KeyDoesntExist_ReturnsTrue()
         {
-            Cache.Add(_key, _cacheItem);
+            _cache.Add(_key, _cacheItem);
 
-            Assert.True(Cache.Count > default(int));
+            Assert.True(_cache.Count > default(int));
         }
 
         [Test]
         public void Add_KeyExists_ReturnsFalse()
         {
-            Cache.Add(_key, _cacheItem);
+            _cache.Add(_key, _cacheItem);
 
-            Assert.Throws<ArgumentException>(() => Cache.Add(_key, new NonExpiringCacheItem<int>(_value)));
+            Assert.Throws<ArgumentException>(() => _cache.Add(_key, new NonExpiringCacheItem<int>(_value)));
         }
 
 
@@ -53,19 +53,19 @@ namespace MemoryCacheT.Test
         [Test]
         public void TryAdd_NullKey_ThrowsException()
         {
-            Assert.Throws<ArgumentNullException>(() => Cache.TryAdd(null, _cacheItem));
+            Assert.Throws<ArgumentNullException>(() => _cache.TryAdd(null, _cacheItem));
         }
 
         [Test]
         public void TryAdd_NullCacheItem_ThrowsException()
         {
-            Assert.Throws<ArgumentNullException>(() => Cache.TryAdd(_key, null));
+            Assert.Throws<ArgumentNullException>(() => _cache.TryAdd(_key, null));
         }
 
         [Test]
         public void TryAdd_KeyDoesntExist_ReturnsTrue()
         {
-            bool isAdded = Cache.TryAdd(_key, _cacheItem);
+            bool isAdded = _cache.TryAdd(_key, _cacheItem);
 
             Assert.True(isAdded);
         }
@@ -73,8 +73,8 @@ namespace MemoryCacheT.Test
         [Test]
         public void TryAdd_KeyExists_ReturnsFalse()
         {
-            Cache.Add(_key, _cacheItem);
-            bool isAdded = Cache.TryAdd(_key, _cacheItem);
+            _cache.Add(_key, _cacheItem);
+            bool isAdded = _cache.TryAdd(_key, _cacheItem);
 
             Assert.False(isAdded);
         }
@@ -82,10 +82,10 @@ namespace MemoryCacheT.Test
         [Test]
         public void TryAdd_KeyExists_ItemIsNotAdded()
         {
-            Cache.Add(_key, _cacheItem);
-            Cache.TryAdd(_key, _cacheItem);
+            _cache.Add(_key, _cacheItem);
+            _cache.TryAdd(_key, _cacheItem);
 
-            Assert.AreEqual(1, Cache.Count);
+            Assert.AreEqual(1, _cache.Count);
         }
 
 
@@ -93,9 +93,9 @@ namespace MemoryCacheT.Test
         [Test]
         public void TryGet_KeyExists_ReturnsTrue()
         {
-            Cache.Add(_key, _cacheItem);
+            _cache.Add(_key, _cacheItem);
             int value;
-            bool result = Cache.TryGetValue(_key, out value);
+            bool result = _cache.TryGetValue(_key, out value);
 
             Assert.True(result);
         }
@@ -104,7 +104,7 @@ namespace MemoryCacheT.Test
         public void TryGet_KeyDoesNotExist_ReturnFalse()
         {
             int value;
-            bool result = Cache.TryGetValue(_key, out value);
+            bool result = _cache.TryGetValue(_key, out value);
 
             Assert.False(result);
         }
@@ -113,7 +113,7 @@ namespace MemoryCacheT.Test
         public void TryGet_NullKey_ThrowsException()
         {
             int value;
-            Assert.Throws<ArgumentNullException>(() => Cache.TryGetValue(null, out value));
+            Assert.Throws<ArgumentNullException>(() => _cache.TryGetValue(null, out value));
         }
 
 
@@ -121,9 +121,9 @@ namespace MemoryCacheT.Test
         [Test]
         public void TryGetCacheItem_KeyExists_ReturnsTrue()
         {
-            Cache.Add(_key, _cacheItem);
+            _cache.Add(_key, _cacheItem);
             ICacheItem<int> value;
-            bool result = Cache.TryGetValue(_key, out value);
+            bool result = _cache.TryGetValue(_key, out value);
 
             Assert.True(result);
         }
@@ -132,7 +132,7 @@ namespace MemoryCacheT.Test
         public void TryGetCacheItem_KeyDoesNotExist_ReturnFalse()
         {
             ICacheItem<int> value;
-            bool result = Cache.TryGetValue(_key, out value);
+            bool result = _cache.TryGetValue(_key, out value);
 
             Assert.False(result);
         }
@@ -141,7 +141,7 @@ namespace MemoryCacheT.Test
         public void TryGetCacheItem_NullKey_ThrowsException()
         {
             ICacheItem<int> value;
-            Assert.Throws<ArgumentNullException>(() => Cache.TryGetValue(null, out value));
+            Assert.Throws<ArgumentNullException>(() => _cache.TryGetValue(null, out value));
         }
 
 
@@ -150,9 +150,9 @@ namespace MemoryCacheT.Test
         public void TryUpdate_KeyExists_ReturnsTrue()
         {
             int newValue = _value + 7;
-            Cache.Add(_key, _cacheItem);
+            _cache.Add(_key, _cacheItem);
 
-            bool result = Cache.TryUpdate(_key, newValue);
+            bool result = _cache.TryUpdate(_key, newValue);
 
             Assert.True(result);
         }
@@ -161,11 +161,11 @@ namespace MemoryCacheT.Test
         public void TryUpdate_KeyExists_ValueIsUpdated()
         {
             int newValue = _value + 7;
-            Cache.Add(_key, _cacheItem);
-            Cache.TryUpdate(_key, newValue);
+            _cache.Add(_key, _cacheItem);
+            _cache.TryUpdate(_key, newValue);
 
             int updatedValue;
-            bool result = Cache.TryGetValue(_key, out updatedValue) && updatedValue == newValue;
+            bool result = _cache.TryGetValue(_key, out updatedValue) && updatedValue == newValue;
 
             Assert.True(result);
         }
@@ -173,7 +173,7 @@ namespace MemoryCacheT.Test
         [Test]
         public void TryUpdate_KeyDoesNotExist_ReturnsFalse()
         {
-            bool result = Cache.TryUpdate(_key, _value);
+            bool result = _cache.TryUpdate(_key, _value);
 
             Assert.False(result);
         }
@@ -182,11 +182,11 @@ namespace MemoryCacheT.Test
         public void TryUpdate_KeyDoesNotExist_ValueIsNotUpdated()
         {
             int newValue = _value + 7;
-            Cache.Add(_key, _cacheItem);
-            Cache.TryUpdate("invalidKey", newValue);
+            _cache.Add(_key, _cacheItem);
+            _cache.TryUpdate("invalidKey", newValue);
 
             int updatedValue;
-            bool result = Cache.TryGetValue(_key, out updatedValue) && updatedValue == _value;
+            bool result = _cache.TryGetValue(_key, out updatedValue) && updatedValue == _value;
 
             Assert.True(result);
         }
@@ -194,10 +194,10 @@ namespace MemoryCacheT.Test
         [Test]
         public void TryUpdate_KeyDoesNotExist_NewItemIsNotAdded()
         {
-            Cache.TryUpdate(_key, _value);
+            _cache.TryUpdate(_key, _value);
 
             int updatedValue;
-            bool result = Cache.TryGetValue(_key, out updatedValue);
+            bool result = _cache.TryGetValue(_key, out updatedValue);
 
             Assert.False(result);
         }
@@ -209,9 +209,9 @@ namespace MemoryCacheT.Test
         {
             int newValue = _value + 7;
             ICacheItem<int> newCacheItem = new NonExpiringCacheItem<int>(newValue);
-            Cache.Add(_key, _cacheItem);
+            _cache.Add(_key, _cacheItem);
 
-            bool result = Cache.TryUpdate(_key, newCacheItem);
+            bool result = _cache.TryUpdate(_key, newCacheItem);
 
             Assert.True(result);
         }
@@ -221,11 +221,11 @@ namespace MemoryCacheT.Test
         {
             int newValue = _value + 7;
             ICacheItem<int> newCacheItem = new NonExpiringCacheItem<int>(newValue);
-            Cache.Add(_key, _cacheItem);
-            Cache.TryUpdate(_key, newCacheItem);
+            _cache.Add(_key, _cacheItem);
+            _cache.TryUpdate(_key, newCacheItem);
 
             ICacheItem<int> updatedCacheItem;
-            bool result = Cache.TryGetValue(_key, out updatedCacheItem) && updatedCacheItem == newCacheItem;
+            bool result = _cache.TryGetValue(_key, out updatedCacheItem) && updatedCacheItem == newCacheItem;
 
             Assert.True(result);
         }
@@ -235,7 +235,7 @@ namespace MemoryCacheT.Test
         {
             int newValue = _value + 7;
             ICacheItem<int> newCacheItem = new NonExpiringCacheItem<int>(newValue);
-            bool result = Cache.TryUpdate(_key, newCacheItem);
+            bool result = _cache.TryUpdate(_key, newCacheItem);
 
             Assert.False(result);
         }
@@ -246,11 +246,11 @@ namespace MemoryCacheT.Test
             int newValue = _value + 7;
             ICacheItem<int> newCacheItem = new NonExpiringCacheItem<int>(newValue);
 
-            Cache.Add(_key, _cacheItem);
-            Cache.TryUpdate("invalidKey", newCacheItem);
+            _cache.Add(_key, _cacheItem);
+            _cache.TryUpdate("invalidKey", newCacheItem);
 
             ICacheItem<int> updatedCacheItem;
-            bool result = Cache.TryGetValue(_key, out updatedCacheItem) && updatedCacheItem == _cacheItem;
+            bool result = _cache.TryGetValue(_key, out updatedCacheItem) && updatedCacheItem == _cacheItem;
 
             Assert.True(result);
         }
@@ -260,10 +260,10 @@ namespace MemoryCacheT.Test
         {
             int newValue = _value + 7;
             ICacheItem<int> newCacheItem = new NonExpiringCacheItem<int>(newValue);
-            Cache.TryUpdate(_key, newCacheItem);
+            _cache.TryUpdate(_key, newCacheItem);
 
             ICacheItem<int> updatedCacheItem;
-            bool result = Cache.TryGetValue(_key, out updatedCacheItem);
+            bool result = _cache.TryGetValue(_key, out updatedCacheItem);
 
             Assert.False(result);
         }
@@ -273,13 +273,13 @@ namespace MemoryCacheT.Test
         [Test]
         public void Clear_CacheIsNotEmpty_AllItemsAreRemoved()
         {
-            Cache.Add("1", new NonExpiringCacheItem<int>(1));
-            Cache.Add("2", new NonExpiringCacheItem<int>(2));
-            Cache.Add("3", new NonExpiringCacheItem<int>(3));
+            _cache.Add("1", new NonExpiringCacheItem<int>(1));
+            _cache.Add("2", new NonExpiringCacheItem<int>(2));
+            _cache.Add("3", new NonExpiringCacheItem<int>(3));
 
-            Cache.Clear();
+            _cache.Clear();
 
-            Assert.AreEqual(default(int), Cache.Count);
+            Assert.AreEqual(default(int), _cache.Count);
         }
 
         [Test]
@@ -287,9 +287,9 @@ namespace MemoryCacheT.Test
         {
             bool onRemoveIsCalled = false;
             _cacheItem.OnRemove = (i, time) => onRemoveIsCalled = true;
-            Cache.Add(_key, _cacheItem);
+            _cache.Add(_key, _cacheItem);
 
-            Cache.Clear();
+            _cache.Clear();
 
             Assert.True(onRemoveIsCalled);
         }
@@ -299,9 +299,9 @@ namespace MemoryCacheT.Test
         [Test]
         public void TryRemove_KeyExists_ReturnsTrue()
         {
-            Cache.Add(_key, _cacheItem);
+            _cache.Add(_key, _cacheItem);
 
-            bool result = Cache.TryRemove(_key);
+            bool result = _cache.TryRemove(_key);
 
             Assert.True(result);
         }
@@ -309,7 +309,7 @@ namespace MemoryCacheT.Test
         [Test]
         public void TryRemove_KeyDoesNotExist_ReturnsFalse()
         {
-            bool result = Cache.TryRemove(_key);
+            bool result = _cache.TryRemove(_key);
 
             Assert.False(result);
         }
@@ -319,10 +319,10 @@ namespace MemoryCacheT.Test
         [Test]
         public void TryRemoveGetValue_KeyExists_ReturnsTrue()
         {
-            Cache.Add(_key, _cacheItem);
+            _cache.Add(_key, _cacheItem);
 
             int value;
-            bool result = Cache.TryRemove(_key, out value);
+            bool result = _cache.TryRemove(_key, out value);
 
             Assert.True(result);
         }
@@ -330,10 +330,10 @@ namespace MemoryCacheT.Test
         [Test]
         public void TryRemoveGetValue_KeyExists_ReturnsCorrectValue()
         {
-            Cache.Add(_key, _cacheItem);
+            _cache.Add(_key, _cacheItem);
 
             int value;
-            Cache.TryRemove(_key, out value);
+            _cache.TryRemove(_key, out value);
 
             Assert.AreEqual(_value, value);
         }
@@ -342,7 +342,7 @@ namespace MemoryCacheT.Test
         public void TryRemoveGetValue_KeyDoesNotExist_ReturnsFalse()
         {
             int value;
-            bool result = Cache.TryRemove(_key, out value);
+            bool result = _cache.TryRemove(_key, out value);
 
             Assert.False(result);
         }
@@ -352,10 +352,10 @@ namespace MemoryCacheT.Test
         [Test]
         public void TryRemoveGetCacheItem_KeyExists_ReturnsTrue()
         {
-            Cache.Add(_key, _cacheItem);
+            _cache.Add(_key, _cacheItem);
 
             ICacheItem<int> cacheItem;
-            bool result = Cache.TryRemove(_key, out cacheItem);
+            bool result = _cache.TryRemove(_key, out cacheItem);
 
             Assert.True(result);
         }
@@ -363,10 +363,10 @@ namespace MemoryCacheT.Test
         [Test]
         public void TryRemoveGetCacheItem_KeyExists_ReturnsCorrectValue()
         {
-            Cache.Add(_key, _cacheItem);
+            _cache.Add(_key, _cacheItem);
 
             ICacheItem<int> cacheItem;
-            Cache.TryRemove(_key, out cacheItem);
+            _cache.TryRemove(_key, out cacheItem);
 
             Assert.AreEqual(_cacheItem, cacheItem);
         }
@@ -375,7 +375,7 @@ namespace MemoryCacheT.Test
         public void TryRemoveCacheItem_KeyDoesNotExist_ReturnsFalse()
         {
             ICacheItem<int> cacheItem;
-            bool result = Cache.TryRemove(_key, out cacheItem);
+            bool result = _cache.TryRemove(_key, out cacheItem);
 
             Assert.False(result);
         }
@@ -385,9 +385,9 @@ namespace MemoryCacheT.Test
         [Test]
         public void ContainsKey_KeyExists_ReturnsTrue()
         {
-            Cache.Add(_key, _cacheItem);
+            _cache.Add(_key, _cacheItem);
 
-            bool result = Cache.ContainsKey(_key);
+            bool result = _cache.ContainsKey(_key);
 
             Assert.True(result);
         }
@@ -395,7 +395,7 @@ namespace MemoryCacheT.Test
         [Test]
         public void ContainsKey_KeyDoesNotExist_ReturnsTrue()
         {
-            bool result = Cache.ContainsKey(_key);
+            bool result = _cache.ContainsKey(_key);
 
             Assert.False(result);
         }
@@ -403,7 +403,7 @@ namespace MemoryCacheT.Test
         [Test]
         public void ContainsKey_NullKey_ThrowsException()
         {
-            Assert.Throws<ArgumentNullException>(() => Cache.ContainsKey(null));
+            Assert.Throws<ArgumentNullException>(() => _cache.ContainsKey(null));
         }
 
     }
