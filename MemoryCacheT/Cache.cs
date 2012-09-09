@@ -77,14 +77,14 @@ namespace MemoryCacheT
             get { return _cachedItems.IsEmpty; }
         }
 
-        public IEnumerable<TKey> Keys
+        public ICollection<TKey> Keys
         {
             get { return _cachedItems.Keys; }
         }
 
-        public IEnumerable<TValue> Values
+        public ICollection<TValue> Values
         {
-            get { return _cachedItems.Values.Select(item => item.Value); }
+            get { return _cachedItems.Values.Select(item => item.Value).ToList(); }
         }
 
         public void Clear()
@@ -101,6 +101,12 @@ namespace MemoryCacheT
         public bool ContainsKey(TKey key)
         {
             return _cachedItems.ContainsKey(key);
+        }
+
+        public void Add(KeyValuePair<TKey, TValue> keyValuePair)
+        {
+            ICacheItem<TValue> cacheItem = _cacheItemFactory.CreateInstance(keyValuePair.Value);
+            Add(keyValuePair.Key, cacheItem);
         }
 
         public void Add(TKey key, TValue value)

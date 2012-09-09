@@ -7,9 +7,10 @@ namespace MemoryCacheT
         int Count { get; }
         bool IsEmpty { get; }
 
-        IEnumerable<TKey> Keys { get; }
-        IEnumerable<TValue> Values { get; }
+        ICollection<TKey> Keys { get; }
+        ICollection<TValue> Values { get; }
 
+        void Add(KeyValuePair<TKey, TValue> keyValuePair);
         void Add(TKey key, TValue value);
         void Add(TKey key, ICacheItem<TValue> cacheItem);
 
