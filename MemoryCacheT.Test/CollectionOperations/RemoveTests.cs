@@ -1,10 +1,21 @@
-﻿using NUnit.Framework;
+﻿using System.Collections.Generic;
+using NUnit.Framework;
 
 namespace MemoryCacheT.Test.CollectionOperations
 {
     [TestFixture]
-    internal class TryRemoveTests : CacheTestBase
+    internal class RemoveTests : CacheTestBase
     {
+        [Test]
+        public void Remove_KeyValuePairExistsTest()
+        {
+            _cache.Add(_key, _value);
+
+            bool result = _cache.Remove(new KeyValuePair<string, int>(_key, _value));
+
+            Assert.True(result);
+        }
+
         [Test]
         public void TryRemove_KeyExists_ReturnsTrue()
         {

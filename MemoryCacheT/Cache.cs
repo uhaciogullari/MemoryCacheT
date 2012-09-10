@@ -59,18 +59,7 @@ namespace MemoryCacheT
             }
         }
 
-        public bool Remove(KeyValuePair<TKey, TValue> item)
-        {
-            throw new NotSupportedException();
-        }
-
-        public int Count
-        {
-            get { return _cachedItems.Count; }
-        }
-
-        public bool IsReadOnly { get { return false; } }
-
+        
         public TValue this[TKey key]
         {
             get { return _cachedItems[key].Value; }
@@ -87,27 +76,22 @@ namespace MemoryCacheT
             get { return _cachedItems.Values.Select(item => item.Value).ToList(); }
         }
 
-        public void Clear()
+        public int Count
         {
-            ICollection<ICacheItem<TValue>> valueList = _cachedItems.Values;
-            _cachedItems.Clear();
-
-            foreach (ICacheItem<TValue> cacheItem in valueList)
-            {
-                cacheItem.Remove();
-            }
+            get { return _cachedItems.Count; }
         }
+
+        public bool IsReadOnly
+        {
+            get { return false; }
+        }
+
 
         public bool Contains(KeyValuePair<TKey, TValue> item)
         {
             ICacheItem<TValue> cacheItem;
-            return _cachedItems.TryGetValue(item.Key, out cacheItem) && 
+            return _cachedItems.TryGetValue(item.Key, out cacheItem) &&
                    EqualityComparer<TValue>.Default.Equals(cacheItem.Value, item.Value);
-        }
-
-        public void CopyTo(KeyValuePair<TKey, TValue>[] array, int arrayIndex)
-        {
-            this.ToList().CopyTo(array, arrayIndex);
         }
 
         public bool ContainsKey(TKey key)
@@ -115,11 +99,12 @@ namespace MemoryCacheT
             return _cachedItems.ContainsKey(key);
         }
 
+
         public void Add(KeyValuePair<TKey, TValue> keyValuePair)
         {
             // ReSharper disable CompareNonConstrainedGenericWithNull
             if (keyValuePair.Key == null)
-            // ReSharper restore CompareNonConstrainedGenericWithNull
+                // ReSharper restore CompareNonConstrainedGenericWithNull
             {
                 // ReSharper disable NotResolvedInText
                 throw new ArgumentNullException("key");
@@ -134,7 +119,7 @@ namespace MemoryCacheT
         {
             // ReSharper disable CompareNonConstrainedGenericWithNull
             if (key == null)
-            // ReSharper restore CompareNonConstrainedGenericWithNull
+                // ReSharper restore CompareNonConstrainedGenericWithNull
             {
                 throw new ArgumentNullException("key");
             }
@@ -153,6 +138,7 @@ namespace MemoryCacheT
             _cachedItems.Add(key, cacheItem);
         }
 
+
         public bool TryAdd(TKey key, TValue value)
         {
             ICacheItem<TValue> cacheItem = _cacheItemFactory.CreateInstance(value);
@@ -167,6 +153,7 @@ namespace MemoryCacheT
             }
             return _cachedItems.TryAdd(key, cacheItem);
         }
+
 
         public bool TryGetValue(TKey key, out TValue value)
         {
@@ -187,6 +174,7 @@ namespace MemoryCacheT
         {
             return _cachedItems.TryGetValue(key, out cacheItem);
         }
+
 
         public bool TryUpdate(TKey key, TValue newValue)
         {
@@ -211,6 +199,16 @@ namespace MemoryCacheT
             }
 
             return false;
+        }
+
+
+        public bool Remove(KeyValuePair<TKey, TValue> item)
+        {
+            ICacheItem<TValue> cacheItem;
+
+            return _cachedItems.TryGetValue(item.Key, out cacheItem) &&
+                   EqualityComparer<TValue>.Default.Equals(cacheItem.Value, item.Value) &&
+                   _cachedItems.Remove(new KeyValuePair<TKey, ICacheItem<TValue>>(item.Key, cacheItem));
         }
 
         public bool Remove(TKey key)
@@ -238,10 +236,28 @@ namespace MemoryCacheT
             return _cachedItems.TryRemove(key, out value);
         }
 
+
+        public void Clear()
+        {
+            ICollection<ICacheItem<TValue>> valueList = _cachedItems.Values;
+            _cachedItems.Clear();
+
+            foreach (ICacheItem<TValue> cacheItem in valueList)
+            {
+                cacheItem.Remove();
+            }
+        }
+
+
+        public void CopyTo(KeyValuePair<TKey, TValue>[] array, int arrayIndex)
+        {
+            this.ToArray().CopyTo(array, arrayIndex);
+        }
+
         public IEnumerator<KeyValuePair<TKey, TValue>> GetEnumerator()
         {
             return _cachedItems.Select(item => new KeyValuePair<TKey, TValue>(item.Key, item.Value.Value))
-                               .GetEnumerator();
+                .GetEnumerator();
         }
 
         IEnumerator IEnumerable.GetEnumerator()
