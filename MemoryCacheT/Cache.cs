@@ -100,7 +100,9 @@ namespace MemoryCacheT
 
         public bool Contains(KeyValuePair<TKey, TValue> item)
         {
-            throw new NotSupportedException();
+            ICacheItem<TValue> cacheItem;
+            return _cachedItems.TryGetValue(item.Key, out cacheItem) && 
+                   EqualityComparer<TValue>.Default.Equals(cacheItem.Value, item.Value);
         }
 
         public void CopyTo(KeyValuePair<TKey, TValue>[] array, int arrayIndex)
