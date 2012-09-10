@@ -59,7 +59,7 @@ namespace MemoryCacheT
             }
         }
 
-        
+
         public TValue this[TKey key]
         {
             get { return _cachedItems[key].Value; }
@@ -104,7 +104,7 @@ namespace MemoryCacheT
         {
             // ReSharper disable CompareNonConstrainedGenericWithNull
             if (keyValuePair.Key == null)
-                // ReSharper restore CompareNonConstrainedGenericWithNull
+            // ReSharper restore CompareNonConstrainedGenericWithNull
             {
                 // ReSharper disable NotResolvedInText
                 throw new ArgumentNullException("key");
@@ -119,7 +119,7 @@ namespace MemoryCacheT
         {
             // ReSharper disable CompareNonConstrainedGenericWithNull
             if (key == null)
-                // ReSharper restore CompareNonConstrainedGenericWithNull
+            // ReSharper restore CompareNonConstrainedGenericWithNull
             {
                 throw new ArgumentNullException("key");
             }
@@ -257,7 +257,7 @@ namespace MemoryCacheT
         public IEnumerator<KeyValuePair<TKey, TValue>> GetEnumerator()
         {
             return _cachedItems.Select(item => new KeyValuePair<TKey, TValue>(item.Key, item.Value.Value))
-                .GetEnumerator();
+                               .GetEnumerator();
         }
 
         IEnumerator IEnumerable.GetEnumerator()
