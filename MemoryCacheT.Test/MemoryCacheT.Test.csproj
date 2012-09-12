@@ -64,6 +64,7 @@
     <Compile Include="CollectionOperations\TryGetTests.cs" />
     <Compile Include="CollectionOperations\TryUpdateTests.cs" />
     <Compile Include="CollectionOperations\ValuesTests.cs" />
+    <Compile Include="ExpirationTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
