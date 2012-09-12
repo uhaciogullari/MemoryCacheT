@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 using System.Timers;
 
@@ -83,7 +84,10 @@ namespace MemoryCacheT
 
         public ICollection<TValue> Values
         {
-            get { return _cachedItems.Values.Select(item => item.Value).ToList(); }
+            get
+            {
+                return new ReadOnlyCollection<TValue>(_cachedItems.Values.Select(item => item.Value).ToList());
+            }
         }
 
         public int Count
