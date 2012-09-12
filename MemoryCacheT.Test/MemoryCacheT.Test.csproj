@@ -58,6 +58,7 @@
     <Compile Include="CollectionOperations\ClearTests.cs" />
     <Compile Include="CollectionOperations\ContainsKeyTests.cs" />
     <Compile Include="CollectionOperations\IndexerTests.cs" />
+    <Compile Include="CollectionOperations\KeysTests.cs" />
     <Compile Include="CollectionOperations\RemoveTests.cs" />
     <Compile Include="CollectionOperations\TryAddTests.cs" />
     <Compile Include="CollectionOperations\TryGetTests.cs" />
