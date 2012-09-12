@@ -27,6 +27,13 @@ namespace MemoryCacheT.Test
             _key3 = "key3";
         }
 
+        protected override void FinalizeTearDown()
+        {
+            _cacheItemMock1.VerifyAll();
+            _cacheItemMock2.VerifyAll();
+            _cacheItemMock3.VerifyAll();
+        }
+
         [Test]
         public void Expiration_TwoItemsExpire_ExpireCallbacksAreInvoked()
         {
@@ -54,7 +61,7 @@ namespace MemoryCacheT.Test
             AddItems();
             ElapseTimer();
 
-
+            Assert.False(_cache.ContainsKey(_key1));
         }
 
         private void AddItems()
