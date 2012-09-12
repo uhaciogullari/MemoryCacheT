@@ -47,21 +47,21 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="AbsoluteExpirationCacheItemTests.cs" />
     <Compile Include="CacheConstructorTests.cs" />
-    <Compile Include="CacheItemTestBase.cs" />
-    <Compile Include="CacheItemTests.cs" />
+    <Compile Include="CacheItem\AbsoluteExpirationCacheItemTests.cs" />
+    <Compile Include="CacheItem\CacheItemTestBase.cs" />
+    <Compile Include="CacheItem\CacheItemTests.cs" />
+    <Compile Include="CacheItem\NonExpiringCacheItemTests.cs" />
+    <Compile Include="CacheItem\SlidingExpirationCacheItemTests.cs" />
+    <Compile Include="CacheTestBase.cs" />
     <Compile Include="CollectionOperations\AddTests.cs" />
     <Compile Include="CollectionOperations\ClearTests.cs" />
     <Compile Include="CollectionOperations\ContainsKeyTests.cs" />
+    <Compile Include="CollectionOperations\RemoveTests.cs" />
     <Compile Include="CollectionOperations\TryAddTests.cs" />
     <Compile Include="CollectionOperations\TryGetTests.cs" />
-    <Compile Include="CollectionOperations\TryRemoveTests.cs" />
     <Compile Include="CollectionOperations\TryUpdateTests.cs" />
-    <Compile Include="NonExpiringCacheItemTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="CacheTestBase.cs" />
-    <Compile Include="SlidingExpirationCacheItemTests.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

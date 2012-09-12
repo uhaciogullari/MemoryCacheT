@@ -1,38 +1,18 @@
-﻿using System;
+using System;
 using NUnit.Framework;
 
-namespace MemoryCacheT.Test
+namespace MemoryCacheT.Test.CacheItem
 {
     [TestFixture]
-    internal class AbsoluteExpirationCacheItemTests : CacheItemTestBase
+    internal class NonExpiringCacheItemTests : CacheItemTestBase
     {
-        private DateTime _expirationDate;
-
-        protected override ICacheItem<int> CreateCacheItem()
-        {
-            _expirationDate = Now.AddDays(1);
-            return new AbsoluteExpirationCacheItem<int>(DateTimeProviderMock.Object, Value, _expirationDate);
-        }
-
         [Test]
-        public void IsExpired_CurentDateTimeIsLessThanExpirationDate_ReturnsFalse()
+        public void IsExpired_CurrentTimeIsPast_ReturnsFalse()
         {
-            DateTimeProviderMock.SetupGet(item => item.Now).Returns(Now);
             bool isExpired = CacheItem.IsExpired;
 
             Assert.False(isExpired);
         }
-
-        [Test]
-        public void IsExpired_CurentDateTimeIsGreaterThanExpirationDate_ReturnsTrue()
-        {
-            Now = _expirationDate.AddDays(1);
-            DateTimeProviderMock.SetupGet(item => item.Now).Returns(Now);
-            bool isExpired = CacheItem.IsExpired;
-
-            Assert.True(isExpired);
-        }
-
 
         [Test]
         public void CreateNewCacheItem_NewValue_ValueIsUpdated()
@@ -66,5 +46,6 @@ namespace MemoryCacheT.Test
 
             Assert.AreEqual(onRemove, newCacheItem.OnRemove);
         }
+
     }
 }

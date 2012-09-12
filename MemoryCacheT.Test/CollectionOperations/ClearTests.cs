@@ -1,4 +1,5 @@
-﻿using NUnit.Framework;
+﻿using MemoryCacheT.Test.CacheItem;
+using NUnit.Framework;
 
 namespace MemoryCacheT.Test.CollectionOperations
 {

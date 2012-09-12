@@ -1,8 +1,8 @@
-﻿using System;
+using System;
 using Moq;
 using NUnit.Framework;
 
-namespace MemoryCacheT.Test
+namespace MemoryCacheT.Test.CacheItem
 {
     internal class CacheItemTestBase
     {

@@ -1,6 +1,6 @@
-﻿using NUnit.Framework;
+using NUnit.Framework;
 
-namespace MemoryCacheT.Test
+namespace MemoryCacheT.Test.CacheItem
 {
     [TestFixture]
     internal class CacheItemTests : CacheItemTestBase
