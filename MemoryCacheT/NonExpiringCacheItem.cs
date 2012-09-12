@@ -4,7 +4,7 @@
     {
         internal NonExpiringCacheItem(IDateTimeProvider dateTimeProvider, TValue value) : base(dateTimeProvider, value) { }
 
-        public NonExpiringCacheItem(TValue value) : this(new DateTimeProvider(), value) { }
+        public NonExpiringCacheItem(TValue value) : this(DateTimeProvider.Instance, value) { }
 
         public override ICacheItem<TValue> CreateNewCacheItem(TValue value)
         {
