@@ -26,12 +26,12 @@ namespace MemoryCacheT
 
         public override TValue Value
         {
-            get { return CacheItemValue; }
+            get { return _cacheItemValue; }
         }
 
         public override bool IsExpired
         {
-            get { return DateTimeProvider.Now >= _expirationDate; }
+            get { return _dateTimeProvider.Now >= _expirationDate; }
         }
     }
 }

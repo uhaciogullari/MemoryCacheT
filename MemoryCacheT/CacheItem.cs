@@ -4,13 +4,13 @@ namespace MemoryCacheT
 {
     public abstract class CacheItem<TValue> : ICacheItem<TValue>
     {
-        internal IDateTimeProvider DateTimeProvider { get; private set; }
-        protected TValue CacheItemValue;
+        protected readonly IDateTimeProvider _dateTimeProvider;
+        protected readonly TValue _cacheItemValue;
 
         internal CacheItem(IDateTimeProvider dateTimeProvider, TValue value)
         {
-            DateTimeProvider = dateTimeProvider;
-            CacheItemValue = value;
+            _dateTimeProvider = dateTimeProvider;
+            _cacheItemValue = value;
         }
 
         public abstract ICacheItem<TValue> CreateNewCacheItem(TValue value);
@@ -23,7 +23,7 @@ namespace MemoryCacheT
         {
             if (OnExpire != null)
             {
-                OnExpire(CacheItemValue, DateTimeProvider.Now);
+                OnExpire(_cacheItemValue, _dateTimeProvider.Now);
             }
         }
 
@@ -31,7 +31,7 @@ namespace MemoryCacheT
         {
             if (OnRemove != null)
             {
-                OnRemove(CacheItemValue, DateTimeProvider.Now);
+                OnRemove(_cacheItemValue, _dateTimeProvider.Now);
             }
         }
 

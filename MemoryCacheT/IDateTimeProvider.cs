@@ -2,7 +2,7 @@
 
 namespace MemoryCacheT
 {
-    internal interface IDateTimeProvider
+    public interface IDateTimeProvider
     {
         DateTime Now { get; }
     }

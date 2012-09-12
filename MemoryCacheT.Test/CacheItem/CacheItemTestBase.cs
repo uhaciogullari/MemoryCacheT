@@ -6,29 +6,29 @@ namespace MemoryCacheT.Test.CacheItem
 {
     internal class CacheItemTestBase
     {
-        protected ICacheItem<int> CacheItem;
-        protected Mock<IDateTimeProvider> DateTimeProviderMock;
-        protected int Value;
-        protected DateTime Now;
+        protected ICacheItem<int> _cacheItem;
+        protected Mock<IDateTimeProvider> _dateTimeProviderMock;
+        protected int _value;
+        protected DateTime _now;
 
         [SetUp]
         public void Setup()
         {
-            Now = new DateTime(2012, 8, 20);
-            DateTimeProviderMock = new Mock<IDateTimeProvider>(MockBehavior.Strict);
-            Value = 7;
-            CacheItem = CreateCacheItem();
+            _now = new DateTime(2012, 8, 20);
+            _dateTimeProviderMock = new Mock<IDateTimeProvider>(MockBehavior.Strict);
+            _value = 7;
+            _cacheItem = CreateCacheItem();
         }
 
         protected virtual ICacheItem<int> CreateCacheItem()
         {
-            return new NonExpiringCacheItem<int>(DateTimeProviderMock.Object, Value);
+            return new NonExpiringCacheItem<int>(_dateTimeProviderMock.Object, _value);
         }
 
         [TearDown]
         public void TearDown()
         {
-            DateTimeProviderMock.VerifyAll();
+            _dateTimeProviderMock.VerifyAll();
             FinalizeTearDown();
         }
 

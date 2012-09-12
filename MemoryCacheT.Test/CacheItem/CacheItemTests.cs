@@ -8,11 +8,11 @@ namespace MemoryCacheT.Test.CacheItem
         [Test]
         public void Expire_OnExpireIsAssigned_DelegateCalled()
         {
-            DateTimeProviderMock.SetupGet(item => item.Now).Returns(Now);
+            _dateTimeProviderMock.SetupGet(item => item.Now).Returns(_now);
             bool isOnExpireCalled = false;
-            CacheItem.OnExpire = (value, time) => isOnExpireCalled = true;
+            _cacheItem.OnExpire = (value, time) => isOnExpireCalled = true;
             
-            CacheItem.Expire();
+            _cacheItem.Expire();
 
             Assert.True(isOnExpireCalled);
         }
@@ -20,18 +20,18 @@ namespace MemoryCacheT.Test.CacheItem
         [Test]
         public void Expire_OnExpireIsNotAssigned_NoExceptions()
         {
-            CacheItem.Expire();
+            _cacheItem.Expire();
         }
         
         [Test]
         public void Remove_OnRemoveIsAssigned_DelegateCalled()
         {
-            DateTimeProviderMock.SetupGet(item => item.Now).Returns(Now); 
+            _dateTimeProviderMock.SetupGet(item => item.Now).Returns(_now); 
             
             bool isOnRemoveCalled = false;
-            CacheItem.OnRemove = (value, time) => isOnRemoveCalled = true;
+            _cacheItem.OnRemove = (value, time) => isOnRemoveCalled = true;
             
-            CacheItem.Remove();
+            _cacheItem.Remove();
 
             Assert.True(isOnRemoveCalled);
         }
@@ -39,7 +39,7 @@ namespace MemoryCacheT.Test.CacheItem
         [Test]
         public void Remove_OnRemoveIsNotAssigned_NoExceptions()
         {
-            CacheItem.Remove();
+            _cacheItem.Remove();
         }
 
     }

@@ -9,7 +9,7 @@ namespace MemoryCacheT.Test.CacheItem
         [Test]
         public void IsExpired_CurrentTimeIsPast_ReturnsFalse()
         {
-            bool isExpired = CacheItem.IsExpired;
+            bool isExpired = _cacheItem.IsExpired;
 
             Assert.False(isExpired);
         }
@@ -17,8 +17,8 @@ namespace MemoryCacheT.Test.CacheItem
         [Test]
         public void CreateNewCacheItem_NewValue_ValueIsUpdated()
         {
-            int newValue = Value + 7;
-            ICacheItem<int> newCacheItem = CacheItem.CreateNewCacheItem(newValue);
+            int newValue = _value + 7;
+            ICacheItem<int> newCacheItem = _cacheItem.CreateNewCacheItem(newValue);
 
             Assert.AreEqual(newValue, newCacheItem.Value);
         }
@@ -26,11 +26,11 @@ namespace MemoryCacheT.Test.CacheItem
         [Test]
         public void CreateNewCacheItem_NewValue_OnExpireIsAssigned()
         {
-            int newValue = Value + 7;
+            int newValue = _value + 7;
             Action<int, DateTime> onExpire = (i, time) => { };
-            CacheItem.OnExpire = onExpire;
+            _cacheItem.OnExpire = onExpire;
 
-            ICacheItem<int> newCacheItem = CacheItem.CreateNewCacheItem(newValue);
+            ICacheItem<int> newCacheItem = _cacheItem.CreateNewCacheItem(newValue);
 
             Assert.AreEqual(onExpire, newCacheItem.OnExpire);
         }
@@ -38,11 +38,11 @@ namespace MemoryCacheT.Test.CacheItem
         [Test]
         public void CreateNewCacheItem_NewValue_OnRemoveIsAssigned()
         {
-            int newValue = Value + 7;
+            int newValue = _value + 7;
             Action<int, DateTime> onRemove = (i, time) => { };
-            CacheItem.OnRemove = onRemove;
+            _cacheItem.OnRemove = onRemove;
 
-            ICacheItem<int> newCacheItem = CacheItem.CreateNewCacheItem(newValue);
+            ICacheItem<int> newCacheItem = _cacheItem.CreateNewCacheItem(newValue);
 
             Assert.AreEqual(onRemove, newCacheItem.OnRemove);
         }

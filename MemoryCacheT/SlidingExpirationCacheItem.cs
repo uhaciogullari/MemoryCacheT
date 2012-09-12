@@ -30,14 +30,14 @@ namespace MemoryCacheT
         {
             get
             {
-                _lastAccessDateTime = DateTimeProvider.Now;
-                return CacheItemValue;
+                _lastAccessDateTime = _dateTimeProvider.Now;
+                return _cacheItemValue;
             }
         }
 
         public override bool IsExpired
         {
-            get { return DateTimeProvider.Now >= (_lastAccessDateTime + _cacheInterval); }
+            get { return _dateTimeProvider.Now >= (_lastAccessDateTime + _cacheInterval); }
         }
     }
 }
