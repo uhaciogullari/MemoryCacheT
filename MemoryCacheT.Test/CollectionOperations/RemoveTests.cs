@@ -10,7 +10,7 @@ namespace MemoryCacheT.Test.CollectionOperations
         [Test]
         public void Remove_KeyValuePairExistsTest()
         {
-            _cache.Add(_key, _value);
+            _cache.Add(_key, _cacheItem);
 
             bool result = _cache.Remove(new KeyValuePair<string, int>(_key, _value));
 

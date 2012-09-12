@@ -1,5 +1,4 @@
 ﻿using System;
-using MemoryCacheT.Test.CacheItem;
 using NUnit.Framework;
 
 namespace MemoryCacheT.Test.CollectionOperations
@@ -10,6 +9,7 @@ namespace MemoryCacheT.Test.CollectionOperations
         [Test]
         public void TryAdd_KeyDoesntExist_ReturnsTrue()
         {
+            _cacheItemFactoryMock.Setup(item => item.CreateInstance(_value)).Returns(_cacheItem);
             bool isAdded = _cache.TryAdd(_key, _value);
 
             Assert.True(isAdded);
@@ -18,6 +18,7 @@ namespace MemoryCacheT.Test.CollectionOperations
         [Test]
         public void TryAdd_KeyExists_ReturnsFalse()
         {
+            _cacheItemFactoryMock.Setup(item => item.CreateInstance(_value)).Returns(_cacheItem);
             _cache.Add(_key, _value);
             bool isAdded = _cache.TryAdd(_key, _value);
 
@@ -27,6 +28,7 @@ namespace MemoryCacheT.Test.CollectionOperations
         [Test]
         public void TryAdd_KeyExists_ItemIsNotAdded()
         {
+            _cacheItemFactoryMock.Setup(item => item.CreateInstance(_value)).Returns(_cacheItem);
             _cache.Add(_key, _value);
             _cache.TryAdd(_key, _value);
 

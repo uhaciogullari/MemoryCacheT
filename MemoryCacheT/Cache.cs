@@ -141,6 +141,13 @@ namespace MemoryCacheT
 
         public bool TryAdd(TKey key, TValue value)
         {
+            // ReSharper disable CompareNonConstrainedGenericWithNull
+            if (key == null)
+            // ReSharper restore CompareNonConstrainedGenericWithNull
+            {
+                throw new ArgumentNullException("key");
+            }
+
             ICacheItem<TValue> cacheItem = _cacheItemFactory.CreateInstance(value);
             return TryAdd(key, cacheItem);
         }

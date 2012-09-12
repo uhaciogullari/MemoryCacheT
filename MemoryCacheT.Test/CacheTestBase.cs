@@ -8,6 +8,7 @@ namespace MemoryCacheT.Test
     {
         protected ICache<string, int> _cache;
         protected Mock<ITimer> _timerMock;
+        protected Mock<ICacheItemFactory> _cacheItemFactoryMock;
         protected TimeSpan _timerInterval;
         protected int _value;
         protected string _key;
@@ -22,11 +23,13 @@ namespace MemoryCacheT.Test
             _timerMock.SetupSet(mock => mock.Interval = It.Is<double>(interval => interval > double.Epsilon));
             _timerMock.Setup(mock => mock.Start()).Verifiable();
 
+            _cacheItemFactoryMock = new Mock<ICacheItemFactory>(MockBehavior.Strict);
+
             _value = 7;
             _key = "key";
             _cacheItem = new NonExpiringCacheItem<int>(_value);
 
-            _cache = new Cache<string, int>(_timerMock.Object, _timerInterval);
+            _cache = new Cache<string, int>(_timerMock.Object, _timerInterval, null, _cacheItemFactoryMock.Object);
             FinalizeSetup();
         }
 
@@ -36,6 +39,7 @@ namespace MemoryCacheT.Test
         public void TearDown()
         {
             _timerMock.VerifyAll();
+            _cacheItemFactoryMock.VerifyAll();
             FinalizeTearDown();
         }
 

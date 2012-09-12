@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using MemoryCacheT.Test.CacheItem;
 using NUnit.Framework;
 
 namespace MemoryCacheT.Test.CollectionOperations
@@ -18,6 +17,8 @@ namespace MemoryCacheT.Test.CollectionOperations
         [Test]
         public void Add_KeyDoesntExist_ItemIsAdded()
         {
+            _cacheItemFactoryMock.Setup(item => item.CreateInstance(_value)).Returns(_cacheItem);
+
             _cache.Add(_key, _value);
 
             Assert.True(_cache.Count > default(int));
@@ -26,6 +27,8 @@ namespace MemoryCacheT.Test.CollectionOperations
         [Test]
         public void Add_KeyExists_ThrowsException()
         {
+            _cacheItemFactoryMock.Setup(item => item.CreateInstance(_value)).Returns(_cacheItem);
+            
             _cache.Add(_key, _value);
 
             Assert.Throws<ArgumentException>(() => _cache.Add(_key, _value));
@@ -40,6 +43,8 @@ namespace MemoryCacheT.Test.CollectionOperations
         [Test]
         public void AddKeyValuePair_KeyDoesntExist_ItemIsAdded()
         {
+            _cacheItemFactoryMock.Setup(item => item.CreateInstance(_value)).Returns(_cacheItem);
+
             _cache.Add(_keyValuePair);
 
             Assert.True(_cache.Count > default(int));
@@ -48,6 +53,7 @@ namespace MemoryCacheT.Test.CollectionOperations
         [Test]
         public void AddKeyValuePair_KeyExists_ThrowsException()
         {
+            _cacheItemFactoryMock.Setup(item => item.CreateInstance(_value)).Returns(_cacheItem);
             _cache.Add(_key, _value);
 
             Assert.Throws<ArgumentException>(() => _cache.Add(_keyValuePair));
