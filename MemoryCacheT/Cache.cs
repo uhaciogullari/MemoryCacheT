@@ -14,10 +14,7 @@ namespace MemoryCacheT
         private readonly ICacheItemFactory _cacheItemFactory;
         private readonly IConcurrentDictionary<TKey, ICacheItem<TValue>> _cachedItems;
 
-        internal Cache(ITimer timer,
-                       TimeSpan timerInterval,
-                       IEqualityComparer<TKey> keyEqualityComparer = null,
-                       ICacheItemFactory cacheItemFactory = null)
+        internal Cache(ITimer timer, TimeSpan timerInterval, ICacheItemFactory cacheItemFactory = null, IEqualityComparer<TKey> keyEqualityComparer = null)
         {
             if (timer == null)
             {
@@ -41,9 +38,22 @@ namespace MemoryCacheT
             _timer.Start();
         }
 
-        public Cache(TimeSpan timerInterval, IEqualityComparer<TKey> keyEqualityComparer = null, ICacheItemFactory cacheItemFactory = null)
-            : this(new TimerAdapter(), timerInterval, keyEqualityComparer, cacheItemFactory)
-        { }
+        #region Public constructors
+
+        public Cache(TimeSpan timerInterval)
+            : this(new TimerAdapter(), timerInterval) { }
+
+        public Cache(TimeSpan timerInterval, ICacheItemFactory cacheItemFactory)
+            : this(new TimerAdapter(), timerInterval, cacheItemFactory) { }
+
+        public Cache(TimeSpan timerInterval, IEqualityComparer<TKey> keyEqualityComparer)
+            : this(new TimerAdapter(), timerInterval, null, keyEqualityComparer) { }
+
+        public Cache(TimeSpan timerInterval, ICacheItemFactory cacheItemFactory, IEqualityComparer<TKey> keyEqualityComparer)
+            : this(new TimerAdapter(), timerInterval, cacheItemFactory, keyEqualityComparer) { }
+
+        #endregion
+
 
         private void CheckExpiredItems(object sender, ElapsedEventArgs e)
         {

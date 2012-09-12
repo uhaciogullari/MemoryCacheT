@@ -6,11 +6,6 @@ namespace MemoryCacheT.Test.CollectionOperations
     [TestFixture]
     internal class IndexerTests : CacheTestBase
     {
-        protected override void FinalizeSetup()
-        {
-            _cache = new Cache<string, int>(_timerMock.Object, _timerInterval, null, _cacheItemFactoryMock.Object);
-        }
-
         [Test]
         public void IndexerSet_KeyDoesNotExist_AssignsValue()
         {
