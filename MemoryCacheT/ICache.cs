@@ -15,6 +15,6 @@ namespace MemoryCacheT
         bool TryUpdate(TKey key, ICacheItem<TValue> newCacheItem);
 
         bool Remove(TKey key, out TValue value);
-        bool Remove(TKey key, out ICacheItem<TValue> value);
+        bool Remove(TKey key, out ICacheItem<TValue> cacheItem);
     }
 }

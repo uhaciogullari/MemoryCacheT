@@ -227,15 +227,29 @@ namespace MemoryCacheT
         {
             ICacheItem<TValue> cacheItem;
 
-            return _cachedItems.TryGetValue(item.Key, out cacheItem) &&
-                   EqualityComparer<TValue>.Default.Equals(cacheItem.Value, item.Value) &&
-                   _cachedItems.Remove(new KeyValuePair<TKey, ICacheItem<TValue>>(item.Key, cacheItem));
+            bool result = _cachedItems.TryGetValue(item.Key, out cacheItem) && 
+                          EqualityComparer<TValue>.Default.Equals(cacheItem.Value, item.Value) && 
+                          _cachedItems.Remove(new KeyValuePair<TKey, ICacheItem<TValue>>(item.Key, cacheItem));
+
+            if(result)
+            {
+                cacheItem.Remove();
+            }
+
+            return result;
         }
 
         public bool Remove(TKey key)
         {
             ICacheItem<TValue> cacheItem;
-            return _cachedItems.TryRemove(key, out cacheItem);
+            bool result = _cachedItems.TryRemove(key, out cacheItem);
+
+            if(result)
+            {
+                cacheItem.Remove();
+            }
+
+            return result;
         }
 
         public bool Remove(TKey key, out TValue value)
@@ -246,15 +260,26 @@ namespace MemoryCacheT
             if (_cachedItems.TryRemove(key, out cacheItem))
             {
                 value = cacheItem.Value;
+                cacheItem.Remove();
                 return true;
             }
 
             return false;
         }
 
-        public bool Remove(TKey key, out ICacheItem<TValue> value)
+        public bool Remove(TKey key, out ICacheItem<TValue> cacheItem)
         {
-            return _cachedItems.TryRemove(key, out value);
+            ICacheItem<TValue> cacheItemToDelete;
+            cacheItem = null;
+
+            if (_cachedItems.TryRemove(key, out cacheItemToDelete))
+            {
+                cacheItemToDelete.Remove();
+                cacheItem = cacheItemToDelete;
+                return true;
+            }
+
+            return false;
         }
 
 
