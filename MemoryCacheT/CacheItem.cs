@@ -2,6 +2,10 @@
 
 namespace MemoryCacheT
 {
+    /// <summary>
+    /// Base class for cache items.
+    /// </summary>
+    /// <typeparam name="TValue">Type of value in cache item.</typeparam>
     public abstract class CacheItem<TValue> : ICacheItem<TValue>
     {
         protected readonly IDateTimeProvider _dateTimeProvider;
