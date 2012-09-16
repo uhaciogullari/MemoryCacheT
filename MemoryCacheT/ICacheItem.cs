@@ -26,12 +26,12 @@ namespace MemoryCacheT
         bool IsExpired { get; }
 
         /// <summary>
-        /// Invoked when item is expired
+        /// Invoked when item is expired.
         /// </summary>
         void Expire();
 
         /// <summary>
-        /// Invoked when item is removed
+        /// Invoked when item is removed.
         /// </summary>
         void Remove();
 
