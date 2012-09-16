@@ -210,6 +210,11 @@ namespace MemoryCacheT
 
         public bool TryUpdate(TKey key, ICacheItem<TValue> newCacheItem)
         {
+            if(newCacheItem ==null)
+            {
+                throw new ArgumentNullException("newCacheItem");
+            }
+            
             return TryUpdate(key, oldCacheItem => newCacheItem);
         }
 
