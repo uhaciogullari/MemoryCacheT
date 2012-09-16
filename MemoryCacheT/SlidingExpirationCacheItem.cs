@@ -2,6 +2,10 @@
 
 namespace MemoryCacheT
 {
+    /// <summary>
+    /// A cache item that expires if it has not been accessed in a given span of time.
+    /// </summary>
+    /// <typeparam name="TValue">Type of value in cache item.</typeparam>
     public class SlidingExpirationCacheItem<TValue> : CacheItem<TValue>
     {
         private readonly TimeSpan _cacheInterval;
@@ -14,6 +18,11 @@ namespace MemoryCacheT
             _lastAccessDateTime = dateTimeProvider.Now;
         }
 
+        /// <summary>
+        /// Initializes a new instance of the SlidingExpirationCacheItem&lt;TValue&gt; class.
+        /// </summary>
+        /// <param name="value">Data for the cache item.</param>
+        /// <param name="cacheInterval">Interval that will be used to determine if cache item has expired.</param>
         public SlidingExpirationCacheItem(TValue value, TimeSpan cacheInterval)
             : this(DateTimeProvider.Instance, value, cacheInterval) { }
 
