@@ -29,7 +29,7 @@ namespace MemoryCacheT.Test
             _key = "key";
             _cacheItem = new NonExpiringCacheItem<int>(_value);
 
-            _cache = new Cache<string, int>(_timerMock.Object, _timerInterval, _cacheItemFactoryMock.Object);
+            _cache = new Cache<string, int>(_timerMock.Object, _timerInterval, _cacheItemFactoryMock.Object.CreateInstance);
             FinalizeSetup();
         }
 

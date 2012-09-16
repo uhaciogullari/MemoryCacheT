@@ -12,10 +12,10 @@ namespace MemoryCacheT
         private class TimerAdapter : Timer, ITimer { }
 
         private readonly ITimer _timer;
-        private readonly ICacheItemFactory _cacheItemFactory;
+        private readonly Func<TValue, ICacheItem<TValue>> _cacheItemFactory;
         private readonly IConcurrentDictionary<TKey, ICacheItem<TValue>> _cachedItems;
 
-        internal Cache(ITimer timer, TimeSpan timerInterval, ICacheItemFactory cacheItemFactory = null, IEqualityComparer<TKey> keyEqualityComparer = null)
+        internal Cache(ITimer timer, TimeSpan timerInterval, Func<TValue, ICacheItem<TValue>> cacheItemFactory = null, IEqualityComparer<TKey> keyEqualityComparer = null)
         {
             if (timer == null)
             {
@@ -33,7 +33,7 @@ namespace MemoryCacheT
                               ? new ConcurrentDictionaryAdapter<TKey, ICacheItem<TValue>>(keyEqualityComparer)
                               : new ConcurrentDictionaryAdapter<TKey, ICacheItem<TValue>>();
 
-            _cacheItemFactory = cacheItemFactory ?? new DefaultCacheItemFactory();
+            _cacheItemFactory = cacheItemFactory ?? new DefaultCacheItemFactory().CreateInstance;
 
             _timer.Elapsed += CheckExpiredItems;
             _timer.Start();
@@ -44,14 +44,20 @@ namespace MemoryCacheT
         public Cache(TimeSpan timerInterval)
             : this(new TimerAdapter(), timerInterval) { }
 
-        public Cache(TimeSpan timerInterval, ICacheItemFactory cacheItemFactory)
+        public Cache(TimeSpan timerInterval, Func<TValue, ICacheItem<TValue>> cacheItemFactory)
             : this(new TimerAdapter(), timerInterval, cacheItemFactory) { }
+
+        public Cache(TimeSpan timerInterval, ICacheItemFactory cacheItemFactory)
+            : this(new TimerAdapter(), timerInterval, cacheItemFactory.CreateInstance) { }
 
         public Cache(TimeSpan timerInterval, IEqualityComparer<TKey> keyEqualityComparer)
             : this(new TimerAdapter(), timerInterval, null, keyEqualityComparer) { }
 
-        public Cache(TimeSpan timerInterval, ICacheItemFactory cacheItemFactory, IEqualityComparer<TKey> keyEqualityComparer)
+        public Cache(TimeSpan timerInterval, Func<TValue, ICacheItem<TValue>> cacheItemFactory, IEqualityComparer<TKey> keyEqualityComparer)
             : this(new TimerAdapter(), timerInterval, cacheItemFactory, keyEqualityComparer) { }
+
+        public Cache(TimeSpan timerInterval, ICacheItemFactory cacheItemFactory, IEqualityComparer<TKey> keyEqualityComparer)
+            : this(new TimerAdapter(), timerInterval, cacheItemFactory.CreateInstance, keyEqualityComparer) { }
 
         #endregion
 
@@ -74,7 +80,7 @@ namespace MemoryCacheT
         public TValue this[TKey key]
         {
             get { return _cachedItems[key].Value; }
-            set { _cachedItems[key] = _cacheItemFactory.CreateInstance(value); }
+            set { _cachedItems[key] = _cacheItemFactory(value); }
         }
 
         public ICollection<TKey> Keys
@@ -125,7 +131,7 @@ namespace MemoryCacheT
                 // ReSharper restore NotResolvedInText
             }
 
-            ICacheItem<TValue> cacheItem = _cacheItemFactory.CreateInstance(keyValuePair.Value);
+            ICacheItem<TValue> cacheItem = _cacheItemFactory(keyValuePair.Value);
             Add(keyValuePair.Key, cacheItem);
         }
 
@@ -138,7 +144,7 @@ namespace MemoryCacheT
                 throw new ArgumentNullException("key");
             }
 
-            ICacheItem<TValue> cacheItem = _cacheItemFactory.CreateInstance(value);
+            ICacheItem<TValue> cacheItem = _cacheItemFactory(value);
             Add(key, cacheItem);
         }
 
@@ -162,7 +168,7 @@ namespace MemoryCacheT
                 throw new ArgumentNullException("key");
             }
 
-            ICacheItem<TValue> cacheItem = _cacheItemFactory.CreateInstance(value);
+            ICacheItem<TValue> cacheItem = _cacheItemFactory(value);
             return TryAdd(key, cacheItem);
         }
 
@@ -227,11 +233,11 @@ namespace MemoryCacheT
         {
             ICacheItem<TValue> cacheItem;
 
-            bool result = _cachedItems.TryGetValue(item.Key, out cacheItem) && 
-                          EqualityComparer<TValue>.Default.Equals(cacheItem.Value, item.Value) && 
+            bool result = _cachedItems.TryGetValue(item.Key, out cacheItem) &&
+                          EqualityComparer<TValue>.Default.Equals(cacheItem.Value, item.Value) &&
                           _cachedItems.Remove(new KeyValuePair<TKey, ICacheItem<TValue>>(item.Key, cacheItem));
 
-            if(result)
+            if (result)
             {
                 cacheItem.Remove();
             }
@@ -244,7 +250,7 @@ namespace MemoryCacheT
             ICacheItem<TValue> cacheItem;
             bool result = _cachedItems.TryRemove(key, out cacheItem);
 
-            if(result)
+            if (result)
             {
                 cacheItem.Remove();
             }
