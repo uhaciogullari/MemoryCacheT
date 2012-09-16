@@ -1,4 +1,5 @@
-﻿using NUnit.Framework;
+﻿using System;
+using NUnit.Framework;
 
 namespace MemoryCacheT.Test.CollectionOperations
 {
@@ -123,6 +124,12 @@ namespace MemoryCacheT.Test.CollectionOperations
             bool result = _cache.TryGetValue(_key, out updatedCacheItem);
 
             Assert.False(result);
+        }
+
+        [Test]
+        public void TryUpdateCacheItem_NewCacheItemIsNull_ThrowsException()
+        {
+            Assert.Throws<ArgumentNullException>(() => _cache.TryUpdate(_key, null));
         }
     }
 }
