@@ -4,7 +4,7 @@ using System.Collections.Generic;
 namespace MemoryCacheT
 {
     /// <summary>
-    /// Represents a generic collection of cached items stored in memory.
+    /// Represents the type that implements an in-memory cache.
     /// </summary>
     /// <typeparam name="TKey">The type of keys in the cache.</typeparam>
     /// <typeparam name="TValue">The type of values in the cache.</typeparam>

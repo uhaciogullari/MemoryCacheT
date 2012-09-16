@@ -7,6 +7,11 @@ using System.Timers;
 
 namespace MemoryCacheT
 {
+    /// <summary>
+    /// Represents the type that implements an in-memory cache.
+    /// </summary>
+    /// <typeparam name="TKey">The type of keys in the cache.</typeparam>
+    /// <typeparam name="TValue">The type of values for the stored cache items.</typeparam>
     public class Cache<TKey, TValue> : ICache<TKey, TValue>
     {
         private class TimerAdapter : Timer, ITimer { }
@@ -41,21 +46,52 @@ namespace MemoryCacheT
 
         #region Public constructors
 
+        /// <summary>
+        /// Initializes a new instance of the Cache&lt;TKey,TValue&gt;. Items created using cache item factory will not expire.
+        /// </summary>
+        /// <param name="timerInterval">Interval for checking expired cache items.</param>
         public Cache(TimeSpan timerInterval)
             : this(new TimerAdapter(), timerInterval) { }
 
+        /// <summary>
+        /// Initializes a new instance of the Cache&lt;TKey,TValue&gt;.
+        /// </summary>
+        /// <param name="timerInterval">Interval for checking expired cache items.</param>
+        /// <param name="cacheItemFactory">Delegate to be used when creating cache items using cache item factory, or null to use the default.</param>
         public Cache(TimeSpan timerInterval, Func<TValue, ICacheItem<TValue>> cacheItemFactory)
             : this(new TimerAdapter(), timerInterval, cacheItemFactory) { }
 
+        /// <summary>
+        /// Initializes a new instance of the Cache&lt;TKey,TValue&gt;.
+        /// </summary>
+        /// <param name="timerInterval">Interval for checking expired cache items.</param>
+        /// <param name="cacheItemFactory">The ICacheItemFactory implementation to use when creating new cache items, or null to use the default.</param>
         public Cache(TimeSpan timerInterval, ICacheItemFactory cacheItemFactory)
             : this(new TimerAdapter(), timerInterval, cacheItemFactory.CreateInstance) { }
 
+        /// <summary>
+        /// Initializes a new instance of the Cache&lt;TKey,TValue&gt;. Items created using cache item factory will not expire.
+        /// </summary>
+        /// <param name="timerInterval">Interval for checking expired cache items.</param>
+        /// <param name="keyEqualityComparer">The System.Collections.Generic.IEqualityComparer&lt;TKey&gt; implementation to use when comparing keys, or null to use the default.</param>
         public Cache(TimeSpan timerInterval, IEqualityComparer<TKey> keyEqualityComparer)
             : this(new TimerAdapter(), timerInterval, null, keyEqualityComparer) { }
 
+        /// <summary>
+        /// Initializes a new instance of the Cache&lt;TKey,TValue&gt;.
+        /// </summary>
+        /// <param name="timerInterval">Interval for checking expired cache items.</param>
+        /// <param name="cacheItemFactory">Delegate to be used when creating cache items using cache item factory, or null to use the default.</param>
+        /// <param name="keyEqualityComparer">The System.Collections.Generic.IEqualityComparer&lt;TKey&gt; implementation to use when comparing keys, or null to use the default.</param>
         public Cache(TimeSpan timerInterval, Func<TValue, ICacheItem<TValue>> cacheItemFactory, IEqualityComparer<TKey> keyEqualityComparer)
             : this(new TimerAdapter(), timerInterval, cacheItemFactory, keyEqualityComparer) { }
 
+        /// <summary>
+        /// Initializes a new instance of the Cache&lt;TKey,TValue&gt;.
+        /// </summary>
+        /// <param name="timerInterval">Interval for checking expired cache items.</param>
+        /// <param name="cacheItemFactory">The ICacheItemFactory implementation to use when creating new cache items, or null to use the default.</param>
+        /// <param name="keyEqualityComparer">The System.Collections.Generic.IEqualityComparer&lt;TKey&gt; implementation to use when comparing keys, or null to use the default.</param>
         public Cache(TimeSpan timerInterval, ICacheItemFactory cacheItemFactory, IEqualityComparer<TKey> keyEqualityComparer)
             : this(new TimerAdapter(), timerInterval, cacheItemFactory.CreateInstance, keyEqualityComparer) { }
 
