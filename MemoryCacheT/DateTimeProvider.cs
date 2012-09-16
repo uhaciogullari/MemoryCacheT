@@ -4,7 +4,7 @@ namespace MemoryCacheT
 {
     internal class DateTimeProvider : IDateTimeProvider
     {
-        private static Lazy<IDateTimeProvider> __instance =
+        private static readonly Lazy<IDateTimeProvider> __instance =
             new Lazy<IDateTimeProvider>(() => new DateTimeProvider(), true);
 
         private DateTimeProvider() { }
