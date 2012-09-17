@@ -1,0 +1,25 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<package xmlns="http://schemas.microsoft.com/packaging/2011/08/nuspec.xsd">
+  <metadata>
+    <id>MemoryCacheT</id>
+    <version>0.1.0</version>
+    <authors>Ufuk Hacıoğulları</authors>
+    <owners>Ufuk Hacıoğulları</owners>
+    <requireLicenseAcceptance>false</requireLicenseAcceptance>
+    <description>MemoryCacheT is a simple in-memory cache with eviction options.</description>
+    <projectUrl>https://github.com/uhaciogullari/MemoryCacheT</projectUrl>
+    <tags>caching</tags>
+    <summary>
+      MemoryCacheT simply wraps System.Collections.Concurrent.ConcurrentDictionary class and offers some options for expiring elements.
+    </summary>
+  </metadata>
+  <files>
+    <file src="BuildArtifacts\bin\net40\MemoryCacheT.dll" target="lib\net40" />
+    <file src="BuildArtifacts\bin\net40\MemoryCacheT.pdb" target="lib\net40" />
+    <file src="BuildArtifacts\bin\net40\MemoryCacheT.xml" target="lib\net40" />
+
+    <file src="BuildArtifacts\bin\net45\MemoryCacheT.dll" target="lib\net45" />
+    <file src="BuildArtifacts\bin\net45\MemoryCacheT.pdb" target="lib\net45" />
+    <file src="BuildArtifacts\bin\net45\MemoryCacheT.xml" target="lib\net45" />
+  </files>
+</package>

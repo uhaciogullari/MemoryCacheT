@@ -5,6 +5,12 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MemoryCacheT", "MemoryCache
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MemoryCacheT.Test", "MemoryCacheT.Test\MemoryCacheT.Test.csproj", "{CADE34C5-5445-4745-849C-0223EB6B771D}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "NuGet Package", "NuGet Package", "{DE143E73-FFF9-4457-A70E-B8115D32DA74}"
+	ProjectSection(SolutionItems) = preProject
+		build.proj = build.proj
+		MemoryCacheT.nuspec = MemoryCacheT.nuspec
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
