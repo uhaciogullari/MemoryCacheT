@@ -10,6 +10,6 @@ namespace MemoryCacheT
         /// <summary>
         /// Returns a DateTime representing the current date and time.
         /// </summary>
-        DateTime Now { get; }
+        DateTime UtcNow { get; }
     }
 }

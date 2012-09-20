@@ -15,7 +15,7 @@ namespace MemoryCacheT
             : base(dateTimeProvider, value)
         {
             _cacheInterval = cacheInterval;
-            _lastAccessDateTime = dateTimeProvider.Now;
+            _lastAccessDateTime = dateTimeProvider.UtcNow;
         }
 
         /// <summary>
@@ -39,14 +39,14 @@ namespace MemoryCacheT
         {
             get
             {
-                _lastAccessDateTime = _dateTimeProvider.Now;
+                _lastAccessDateTime = _dateTimeProvider.UtcNow;
                 return _cacheItemValue;
             }
         }
 
         public override bool IsExpired
         {
-            get { return _dateTimeProvider.Now >= (_lastAccessDateTime + _cacheInterval); }
+            get { return _dateTimeProvider.UtcNow >= (_lastAccessDateTime + _cacheInterval); }
         }
     }
 }

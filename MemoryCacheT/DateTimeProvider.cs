@@ -9,9 +9,9 @@ namespace MemoryCacheT
 
         private DateTimeProvider() { }
 
-        public DateTime Now
+        public DateTime UtcNow
         {
-            get { return DateTime.Now; }
+            get { return DateTime.UtcNow; }
         }
 
         public static IDateTimeProvider Instance

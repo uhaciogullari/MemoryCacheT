@@ -13,18 +13,19 @@ namespace MemoryCacheT
         internal AbsoluteExpirationCacheItem(IDateTimeProvider dateTimeProvider, TValue value, DateTime expirationDateTime)
             : base(dateTimeProvider, value)
         {
-            if (expirationDateTime < _dateTimeProvider.Now)
+            DateTime utcExpirationDateTime = expirationDateTime.ToUniversalTime();
+            if (utcExpirationDateTime < _dateTimeProvider.UtcNow)
             {
                 throw new ArgumentException("Expiration time must be greater than current time");
             }
 
-            _expirationDateTime = expirationDateTime;
+            _expirationDateTime = utcExpirationDateTime;
         }
 
         internal AbsoluteExpirationCacheItem(IDateTimeProvider dateTimeProvider, TValue value, TimeSpan cacheInterval)
             : base(dateTimeProvider, value)
         {
-            _expirationDateTime = _dateTimeProvider.Now + cacheInterval;
+            _expirationDateTime = _dateTimeProvider.UtcNow + cacheInterval;
         }
 
         /// <summary>
@@ -60,7 +61,7 @@ namespace MemoryCacheT
 
         public override bool IsExpired
         {
-            get { return _dateTimeProvider.Now >= _expirationDateTime; }
+            get { return _dateTimeProvider.UtcNow >= _expirationDateTime; }
         }
     }
 }

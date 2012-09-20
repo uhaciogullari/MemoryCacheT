@@ -27,7 +27,7 @@ namespace MemoryCacheT
         {
             if (OnExpire != null)
             {
-                OnExpire(_cacheItemValue, _dateTimeProvider.Now);
+                OnExpire(_cacheItemValue, _dateTimeProvider.UtcNow);
             }
         }
 
@@ -35,7 +35,7 @@ namespace MemoryCacheT
         {
             if (OnRemove != null)
             {
-                OnRemove(_cacheItemValue, _dateTimeProvider.Now);
+                OnRemove(_cacheItemValue, _dateTimeProvider.UtcNow);
             }
         }
 

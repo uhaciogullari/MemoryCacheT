@@ -13,7 +13,7 @@ namespace MemoryCacheT.Test.CacheItem
         {
             _createDateTime = _now.AddMinutes(-5);
             _expirationDateTime = _now.AddDays(1);
-            _dateTimeProviderMock.SetupGet(item => item.Now).Returns(_createDateTime);
+            _dateTimeProviderMock.SetupGet(item => item.UtcNow).Returns(_createDateTime);
 
             return new AbsoluteExpirationCacheItem<int>(_dateTimeProviderMock.Object, _value, _expirationDateTime);
         }
@@ -22,7 +22,7 @@ namespace MemoryCacheT.Test.CacheItem
         public void Constructor_ExpirationDateIsEarlierThanNow_ThrowsException()
         {
             DateTime expirationDate = _now.AddMinutes(-1);
-            _dateTimeProviderMock.SetupGet(item => item.Now).Returns(_now);
+            _dateTimeProviderMock.SetupGet(item => item.UtcNow).Returns(_now);
 
             Assert.Throws<ArgumentException>(
                 () => new AbsoluteExpirationCacheItem<int>(_dateTimeProviderMock.Object, _value, expirationDate));
@@ -32,11 +32,11 @@ namespace MemoryCacheT.Test.CacheItem
         public void Constructor_CacheIntervalIsGiven_IntervalStartsFromCurrentDateTime()
         {
             TimeSpan cacheInterval = new TimeSpan(0, 5, 0);
-            _dateTimeProviderMock.SetupGet(item => item.Now).Returns(_now);
+            _dateTimeProviderMock.SetupGet(item => item.UtcNow).Returns(_now);
 
             ICacheItem<int> cacheItem = new AbsoluteExpirationCacheItem<int>(_dateTimeProviderMock.Object, _value, cacheInterval);
 
-            _dateTimeProviderMock.SetupGet(item => item.Now).Returns(_now + cacheInterval);
+            _dateTimeProviderMock.SetupGet(item => item.UtcNow).Returns(_now + cacheInterval);
 
             Assert.True(cacheItem.IsExpired);
         }
@@ -44,7 +44,7 @@ namespace MemoryCacheT.Test.CacheItem
         [Test]
         public void IsExpired_CurentDateTimeIsLessThanExpirationDate_ReturnsFalse()
         {
-            _dateTimeProviderMock.SetupGet(item => item.Now).Returns(_now);
+            _dateTimeProviderMock.SetupGet(item => item.UtcNow).Returns(_now);
             bool isExpired = _cacheItem.IsExpired;
 
             Assert.False(isExpired);
@@ -54,7 +54,7 @@ namespace MemoryCacheT.Test.CacheItem
         public void IsExpired_CurentDateTimeIsGreaterThanExpirationDate_ReturnsTrue()
         {
             _now = _expirationDateTime.AddDays(1);
-            _dateTimeProviderMock.SetupGet(item => item.Now).Returns(_now);
+            _dateTimeProviderMock.SetupGet(item => item.UtcNow).Returns(_now);
             bool isExpired = _cacheItem.IsExpired;
 
             Assert.True(isExpired);

@@ -8,7 +8,7 @@ namespace MemoryCacheT.Test.CacheItem
         [Test]
         public void Expire_OnExpireIsAssigned_DelegateCalled()
         {
-            _dateTimeProviderMock.SetupGet(item => item.Now).Returns(_now);
+            _dateTimeProviderMock.SetupGet(item => item.UtcNow).Returns(_now);
             bool isOnExpireCalled = false;
             _cacheItem.OnExpire = (value, time) => isOnExpireCalled = true;
             
@@ -26,7 +26,7 @@ namespace MemoryCacheT.Test.CacheItem
         [Test]
         public void Remove_OnRemoveIsAssigned_DelegateCalled()
         {
-            _dateTimeProviderMock.SetupGet(item => item.Now).Returns(_now); 
+            _dateTimeProviderMock.SetupGet(item => item.UtcNow).Returns(_now); 
             
             bool isOnRemoveCalled = false;
             _cacheItem.OnRemove = (value, time) => isOnRemoveCalled = true;

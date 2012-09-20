@@ -12,7 +12,7 @@ namespace MemoryCacheT.Test.CacheItem
         protected override ICacheItem<int> CreateCacheItem()
         {
             _createDateTime = _now.AddMinutes(-10);
-            _dateTimeProviderMock.SetupGet(mock => mock.Now).Returns(_createDateTime);
+            _dateTimeProviderMock.SetupGet(mock => mock.UtcNow).Returns(_createDateTime);
 
             _cacheInterval = new TimeSpan(0, 15, 0);
 
@@ -22,7 +22,7 @@ namespace MemoryCacheT.Test.CacheItem
         [Test]
         public void IsExpired_IntervalHasNotElapsed_ReturnsFalse()
         {
-            _dateTimeProviderMock.SetupGet(mock => mock.Now).Returns(_now);
+            _dateTimeProviderMock.SetupGet(mock => mock.UtcNow).Returns(_now);
             bool isExpired = _cacheItem.IsExpired;
 
             Assert.False(isExpired);
@@ -32,7 +32,7 @@ namespace MemoryCacheT.Test.CacheItem
         public void IsExpired_IntervalElapsed_ReturnsTrue()
         {
             DateTime elapsedDateTime = (_createDateTime + _cacheInterval).AddMinutes(5);
-            _dateTimeProviderMock.SetupGet(mock => mock.Now).Returns(elapsedDateTime);
+            _dateTimeProviderMock.SetupGet(mock => mock.UtcNow).Returns(elapsedDateTime);
             bool isExpired = _cacheItem.IsExpired;
 
             Assert.True(isExpired);
@@ -42,12 +42,12 @@ namespace MemoryCacheT.Test.CacheItem
         public void IsExpired_ExpirationSlidesAndItIsCheckedWithinRestartedInterval_ReturnsFalse()
         {
             DateTime accessedDateTime = _createDateTime + new TimeSpan(0, 5, 0);
-            _dateTimeProviderMock.SetupGet(mock => mock.Now).Returns(accessedDateTime);
+            _dateTimeProviderMock.SetupGet(mock => mock.UtcNow).Returns(accessedDateTime);
 
             int value = _cacheItem.Value;
 
             _now = (_createDateTime + _cacheInterval).AddMinutes(3);
-            _dateTimeProviderMock.SetupGet(item => item.Now).Returns(_now);
+            _dateTimeProviderMock.SetupGet(item => item.UtcNow).Returns(_now);
 
             bool isExpired = _cacheItem.IsExpired;
             Assert.False(isExpired);
@@ -57,12 +57,12 @@ namespace MemoryCacheT.Test.CacheItem
         public void IsExpired_ExpirationSlidesAndItIsCheckedOutsideRestartedInterval_ReturnsTrue()
         {
             DateTime accessedDateTime = _createDateTime + new TimeSpan(0, 5, 0);
-            _dateTimeProviderMock.SetupGet(mock => mock.Now).Returns(accessedDateTime);
+            _dateTimeProviderMock.SetupGet(mock => mock.UtcNow).Returns(accessedDateTime);
 
             int value = _cacheItem.Value;
 
             _now = (_createDateTime + _cacheInterval).AddMinutes(7);
-            _dateTimeProviderMock.SetupGet(item => item.Now).Returns(_now);
+            _dateTimeProviderMock.SetupGet(item => item.UtcNow).Returns(_now);
 
             bool isExpired = _cacheItem.IsExpired;
             Assert.True(isExpired);
