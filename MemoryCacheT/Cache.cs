@@ -158,9 +158,7 @@ namespace MemoryCacheT
 
         public void Add(KeyValuePair<TKey, TValue> keyValuePair)
         {
-            // ReSharper disable CompareNonConstrainedGenericWithNull
-            if (keyValuePair.Key == null)
-            // ReSharper restore CompareNonConstrainedGenericWithNull
+            if ((object)keyValuePair.Key == null)
             {
                 // ReSharper disable NotResolvedInText
                 throw new ArgumentNullException("key");
@@ -173,9 +171,7 @@ namespace MemoryCacheT
 
         public void Add(TKey key, TValue value)
         {
-            // ReSharper disable CompareNonConstrainedGenericWithNull
-            if (key == null)
-            // ReSharper restore CompareNonConstrainedGenericWithNull
+            if ((object)key == null)
             {
                 throw new ArgumentNullException("key");
             }
@@ -197,9 +193,7 @@ namespace MemoryCacheT
 
         public bool TryAdd(TKey key, TValue value)
         {
-            // ReSharper disable CompareNonConstrainedGenericWithNull
-            if (key == null)
-            // ReSharper restore CompareNonConstrainedGenericWithNull
+            if ((object)key == null)
             {
                 throw new ArgumentNullException("key");
             }
