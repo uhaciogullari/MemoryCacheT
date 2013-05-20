@@ -100,14 +100,21 @@ namespace MemoryCacheT
 
         private void CheckExpiredItems(object sender, ElapsedEventArgs e)
         {
-            IEnumerable<TKey> expiredItemKeys = _cachedItems.Where(item => item.Value.IsExpired).Select(item => item.Key);
+            IEnumerable<TKey> expiredItemKeys = _cachedItems.Where(item => item.Value.IsExpired).Select(item => item.Key).ToList();
 
             foreach (TKey expiredItemKey in expiredItemKeys)
             {
                 ICacheItem<TValue> expiredItem;
                 if (_cachedItems.TryRemove(expiredItemKey, out expiredItem))
                 {
-                    expiredItem.Expire();
+                    if (expiredItem.IsExpired)
+                    {
+                        expiredItem.Expire();
+                    }
+                    else
+                    {
+                        _cachedItems.TryAdd(expiredItemKey, expiredItem);
+                    }
                 }
             }
         }
@@ -240,11 +247,11 @@ namespace MemoryCacheT
 
         public bool TryUpdate(TKey key, ICacheItem<TValue> newCacheItem)
         {
-            if(newCacheItem ==null)
+            if (newCacheItem == null)
             {
                 throw new ArgumentNullException("newCacheItem");
             }
-            
+
             return TryUpdate(key, oldCacheItem => newCacheItem);
         }
 
