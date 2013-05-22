@@ -100,7 +100,10 @@ namespace MemoryCacheT
 
         private void CheckExpiredItems(object sender, ElapsedEventArgs e)
         {
-            IEnumerable<TKey> expiredItemKeys = _cachedItems.Where(item => item.Value.IsExpired).Select(item => item.Key).ToList();
+            _timer.Stop();
+            IEnumerable<TKey> expiredItemKeys = _cachedItems.Where(item => item.Value.IsExpired)
+                                                            .Select(item => item.Key)
+                                                            .ToList();
 
             foreach (TKey expiredItemKey in expiredItemKeys)
             {
@@ -117,6 +120,7 @@ namespace MemoryCacheT
                     }
                 }
             }
+            _timer.Start();
         }
 
 
