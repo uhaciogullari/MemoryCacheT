@@ -5,12 +5,6 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MemoryCacheT", "MemoryCache
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MemoryCacheT.Test", "MemoryCacheT.Test\MemoryCacheT.Test.csproj", "{CADE34C5-5445-4745-849C-0223EB6B771D}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "NuGet Package", "NuGet Package", "{DE143E73-FFF9-4457-A70E-B8115D32DA74}"
-	ProjectSection(SolutionItems) = preProject
-		build.proj = build.proj
-		MemoryCacheT.nuspec = MemoryCacheT.nuspec
-	EndProjectSection
-EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".nuget", ".nuget", "{3B79CA41-08EB-4429-AF58-54729BCE8570}"
 	ProjectSection(SolutionItems) = preProject
 		.nuget\NuGet.Config = .nuget\NuGet.Config
