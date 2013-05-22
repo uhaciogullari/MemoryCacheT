@@ -73,6 +73,8 @@ namespace MemoryCacheT.Test
 
         private void ElapseTimer()
         {
+            _timerMock.Setup(item => item.Stop()).Verifiable();
+            _timerMock.Setup(item => item.Start()).Verifiable(); 
             _timerMock.Raise(item => item.Elapsed += null, new EventArgs() as ElapsedEventArgs);
         }
     }
