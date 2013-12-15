@@ -11,4 +11,4 @@ _**Feedback is welcome.**_
 
 ## License
 
-MemoryCacheT is licensed under [MIT License](http://opensource.org/licenses/MIT "Read more about the MIT license form"). Refer to license.txt for more information.
+MemoryCacheT is licensed under [MIT License](http://opensource.org/licenses/MIT "Read more about the MIT license form"). Refer to license file for more information.
