@@ -12,6 +12,3 @@ _**Feedback is welcome.**_
 ## License
 
 MemoryCacheT is licensed under [MIT License](http://opensource.org/licenses/MIT "Read more about the MIT license form"). Refer to license file for more information.
-
-[![Bitdeli Badge](https://d2weczhvl823v0.cloudfront.net/uhaciogullari/memorycachet/trend.png)](https://bitdeli.com/free "Bitdeli Badge")
-
